@@ -15,6 +15,11 @@
                 gold: "#f5a524",
                 sand: "#f3f1ec",
                 ink: "#1c1c1c",
+                slateblue: "#2c3442",
+              },
+              boxShadow: {
+                card: "0 28px 60px rgba(15, 23, 42, 0.12)",
+                soft: "0 16px 30px rgba(15, 23, 42, 0.08)",
               },
             },
           },
@@ -35,51 +40,105 @@
 
       body {
         font-family: "Poppins", system-ui, -apple-system, sans-serif;
-        background: radial-gradient(circle at top left, rgba(245, 165, 36, 0.12), transparent 45%),
-          radial-gradient(circle at 85% 15%, rgba(11, 31, 58, 0.08), transparent 40%),
-          linear-gradient(180deg, #f7f5f1, #f1eee8 60%, #f8f6f2);
-      }
-
-      .glass {
-        background: rgba(255, 255, 255, 0.86);
-        border: 1px solid rgba(15, 23, 42, 0.08);
-        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
-      }
-
-      .nav-blur {
-        backdrop-filter: blur(12px);
+        color: #1c1c1c;
+        background:
+          radial-gradient(circle at 15% 10%, rgba(245, 165, 36, 0.18), transparent 45%),
+          radial-gradient(circle at 85% 15%, rgba(11, 31, 58, 0.1), transparent 45%),
+          linear-gradient(180deg, #f7f5f1, #f1eee8 60%, #faf8f5);
       }
 
       .section-anchor {
-        scroll-margin-top: 110px;
+        scroll-margin-top: 120px;
+      }
+
+      .card {
+        background: rgba(255, 255, 255, 0.9);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 28px 60px rgba(15, 23, 42, 0.12);
+        color: #1f2937;
+      }
+
+      .glass-nav {
+        backdrop-filter: blur(14px);
       }
 
       .hero-ring {
-        background: linear-gradient(120deg, rgba(245, 165, 36, 0.3), rgba(11, 31, 58, 0.2));
+        background: conic-gradient(from 180deg, rgba(245, 165, 36, 0.5), rgba(11, 31, 58, 0.2), rgba(245, 165, 36, 0.5));
       }
 
-      .toggle-pill {
-        background: rgba(15, 23, 42, 0.08);
+      .chip {
+        border: 1px solid rgba(15, 23, 42, 0.12);
+      }
+
+      .hover-read {
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+      }
+
+      .card:hover .hover-read,
+      .card:focus-within .hover-read {
+        opacity: 1;
+      }
+
+      .text-slate-600 {
+        color: #374151;
+      }
+
+      .text-slate-500 {
+        color: #4b5563;
+      }
+
+      .text-slate-400 {
+        color: #6b7280;
+      }
+
+      #toggleKnob {
+        color: #0a1730;
+        background: #ffffff;
       }
 
       .dark body {
-        background: radial-gradient(circle at top left, rgba(245, 165, 36, 0.2), transparent 45%),
-          radial-gradient(circle at 85% 15%, rgba(148, 163, 184, 0.15), transparent 40%),
+        color: #e5e7eb;
+        background:
+          radial-gradient(circle at 15% 10%, rgba(245, 165, 36, 0.2), transparent 45%),
+          radial-gradient(circle at 85% 15%, rgba(148, 163, 184, 0.18), transparent 45%),
           linear-gradient(180deg, #0b1f3a, #0f172a 60%, #0b1f3a);
       }
 
-      .dark .glass {
-        background: rgba(15, 23, 42, 0.72);
+      .dark .card {
+        background: rgba(15, 23, 42, 0.82);
         border-color: rgba(148, 163, 184, 0.2);
-        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
+        box-shadow: 0 28px 60px rgba(0, 0, 0, 0.35);
+        color: #e5e7eb;
+      }
+
+      .dark .hover-read {
+        opacity: 0.8;
+      }
+
+      .dark .text-slate-600 {
+        color: #e2e8f0;
+      }
+
+      .dark .text-slate-500 {
+        color: #cbd5e1;
+      }
+
+      .dark .text-slate-400 {
+        color: #94a3b8;
+      }
+
+      .dark #toggleKnob {
+        color: #0b1f3a;
+        background: #f5a524;
       }
     </style>
   </head>
   <body class="text-ink">
-    <nav class="nav-blur sticky top-0 z-50 border-b border-slate-200/50 bg-white/80 dark:border-slate-700/40 dark:bg-slate-900/80">
-      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10 lg:px-16">
+    <nav class="glass-nav sticky top-0 z-50 border-b border-slate-200/60 bg-white/85 dark:border-slate-700/50 dark:bg-slate-900/80">
+      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4 sm:px-10 lg:px-16">
         <div>
-          <p class="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Portfolio</p>
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Portfolio</p>
           <p class="text-lg font-semibold text-navy dark:text-white">Orlene Bliss Nisnisan</p>
         </div>
         <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
@@ -92,77 +151,68 @@
         </div>
         <div class="flex items-center gap-3">
           <a
-            class="hidden rounded-full border border-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy sm:inline-flex"
-            href="public/Nisnisan_Resume.pdf"
-            download
+            class="rounded-full border border-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy"
+            href="https://nisnisan-resume.tiiny.site/"
+            target="_blank"
+            rel="noreferrer"
           >
-            Download Resume
+            View Resume
           </a>
           <button
-            class="toggle-pill flex h-10 w-16 items-center rounded-full px-1 transition"
+            class="flex h-10 w-16 items-center rounded-full bg-slate-100 px-1 text-xs font-semibold text-slate-600 transition dark:bg-slate-800 dark:text-slate-200"
             id="themeToggle"
             type="button"
             aria-label="Toggle dark mode"
           >
-            <span
-              class="h-8 w-8 rounded-full bg-white text-xs font-semibold text-navy shadow transition"
-              id="toggleKnob"
-            >
-              Sun
-            </span>
+            <span class="h-8 w-8 rounded-full bg-white text-center leading-8 shadow" id="toggleKnob">Sun</span>
           </button>
         </div>
       </div>
     </nav>
 
     <main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-16 pt-10 sm:px-10 lg:px-16">
-      <section class="section-anchor glass grid gap-8 rounded-3xl p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr]" id="hero">
+      <section class="section-anchor card grid gap-8 rounded-[32px] p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr]" id="hero">
         <div>
-          <p class="text-xs uppercase tracking-[0.45em] text-slate-500 dark:text-slate-400">Data + Web</p>
-          <h1 class="mt-4 text-4xl font-semibold text-navy dark:text-white sm:text-5xl">
+          <p class="text-xs uppercase tracking-[0.45em] text-slate-400">Data + Web</p>
+          <h1 class="mt-4 text-4xl font-semibold text-black dark:text-white sm:text-5xl">
             Orlene Bliss Nisnisan
           </h1>
-          <p class="mt-4 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
+          <p class="hover-read mt-4 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
             Information technology student focused on data systems and full-stack development.
             I build clean, reliable platforms that make complex information easier to use.
           </p>
           <div class="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">
-            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Database</span>
-            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Full-Stack</span>
-            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Analytics</span>
+            <span class="chip rounded-full bg-white/70 px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Database</span>
+            <span class="chip rounded-full bg-white/70 px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Full-Stack</span>
+            <span class="chip rounded-full bg-white/70 px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Analytics</span>
           </div>
-          <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-300">
+          <div class="hover-read mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-300">
             <span>+63 975 4793 107</span>
             <a class="text-gold transition hover:opacity-80" href="mailto:nisnisanob@gmail.com">nisnisanob@gmail.com</a>
             <a class="text-gold transition hover:opacity-80" href="https://github.com/obeautipoll">github.com/obeautipoll</a>
             <a class="text-gold transition hover:opacity-80" href="https://www.linkedin.com/in/orlene-bliss-nisnisan-5425aa299/">LinkedIn</a>
             <a class="text-gold transition hover:opacity-80" href="https://www.facebook.com/nisnisanob">Facebook</a>
           </div>
-          <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
-            <a class="text-gold transition hover:opacity-80" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
-              getsamplessssss.my.canva.site/itsobnisnisan
-            </a>
-          </div>
         </div>
         <div class="flex flex-col items-center gap-6">
           <div class="hero-ring flex h-48 w-48 items-center justify-center rounded-full">
-            <div class="h-40 w-40 overflow-hidden rounded-full border-4 border-white shadow-lg">
+            <div class="h-40 w-40 overflow-hidden rounded-full border-4 border-white shadow-soft">
               <img
-                src="public/pic.jpeg"
+                src="src/public/pic.jpeg"
                 alt="Portrait of Orlene Bliss Nisnisan"
                 class="h-full w-full object-cover"
               />
             </div>
           </div>
-          <div class="w-full rounded-2xl bg-white/80 p-4 text-sm text-slate-600 shadow-sm dark:bg-slate-800/70 dark:text-slate-200">
-            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Now Focused</p>
+          <div class="w-full rounded-2xl bg-slateblue p-5 text-sm text-white shadow-soft">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-200">Now Focused</p>
             <p class="mt-2">Database security, backend APIs, and human-centered UX.</p>
           </div>
         </div>
       </section>
 
       <section class="section-anchor grid gap-6 lg:grid-cols-[1.4fr_0.6fr]" id="education">
-        <div class="glass rounded-3xl p-8">
+        <div class="card rounded-3xl p-8">
           <h2 class="text-2xl font-semibold text-navy dark:text-white">Education</h2>
           <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300">
             <div>
@@ -185,7 +235,7 @@
             </div>
           </div>
         </div>
-        <div class="glass rounded-3xl p-8">
+        <div class="card rounded-3xl p-8">
           <h2 class="text-2xl font-semibold text-navy dark:text-white">Highlights</h2>
           <div class="mt-5 space-y-5 text-sm text-slate-600 dark:text-slate-300">
             <div>
@@ -200,7 +250,7 @@
         </div>
       </section>
 
-      <section class="section-anchor glass rounded-3xl p-8" id="skills">
+      <section class="section-anchor card rounded-3xl p-8" id="skills">
         <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <h2 class="text-2xl font-semibold text-navy dark:text-white">Technical Skills</h2>
@@ -214,11 +264,11 @@
           </div>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2">
-          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-soft dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
             <h3 class="text-xs uppercase tracking-widest text-slate-400">Programming Languages</h3>
             <p class="mt-3">Python, Java, JavaScript, PHP, Typescript, HTML/CSS</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-soft dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
             <h3 class="text-xs uppercase tracking-widest text-slate-400">Frameworks &amp; Tools</h3>
             <p class="mt-3">MySQL, Redis, MongoDB, Tailwind CSS, Jupyter Notebook, React.js, Node.js, IntelliJ IDEA, Xampp</p>
           </div>
@@ -226,7 +276,7 @@
       </section>
 
       <section class="section-anchor grid gap-6 lg:grid-cols-2" id="experience">
-        <div class="glass rounded-3xl p-8">
+        <div class="card rounded-3xl p-8">
           <h2 class="text-2xl font-semibold text-navy dark:text-white">Work Experience</h2>
           <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300">
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
@@ -259,9 +309,9 @@
             </div>
           </div>
         </div>
-        <div class="glass rounded-3xl p-8">
+        <div class="card rounded-3xl p-8" id="leadership">
           <h2 class="text-2xl font-semibold text-navy dark:text-white">Leadership Experience</h2>
-          <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300" id="leadership">
+          <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300">
             <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
                 <h3 class="text-lg font-semibold text-slate-900 dark:text-white">College of Computer Studies - Student Council</h3>
@@ -280,26 +330,26 @@
         </div>
       </section>
 
-      <section class="section-anchor glass rounded-3xl p-8" id="projects">
+      <section class="section-anchor card rounded-3xl p-8" id="projects">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 class="text-2xl font-semibold text-navy dark:text-white">Projects</h2>
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Hover to preview focus areas and tech stacks. Image slots are ready for your screenshots.
+              Featured work with visual previews. The first two projects link to live sites.
             </p>
           </div>
           <span class="rounded-full bg-gold px-4 py-2 text-xs uppercase tracking-widest text-navy">Visual Showcase</span>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           <a
-            class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2"
+            class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2"
             href="https://capstone199-supabase-lav.vercel.app/"
             target="_blank"
             rel="noreferrer"
           >
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
               <img
-                src="public/image%20(3).png"
+                src="src/public/image%20(3).png"
                 alt="e-SKEDLAV tutoring system preview"
                 class="h-52 w-full object-cover sm:h-60"
               />
@@ -313,14 +363,14 @@
             <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">SQL • Supabase • React</p>
           </a>
           <a
-            class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2"
+            class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-900/60 lg:col-span-2"
             href="https://myiit-speakup-gold.vercel.app/login"
             target="_blank"
             rel="noreferrer"
           >
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
               <img
-                src="public/image%20(4).png"
+                src="src/public/image%20(4).png"
                 alt="SpeakUp complaint management system preview"
                 class="h-52 w-full object-cover sm:h-60"
               />
@@ -333,23 +383,23 @@
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Backend development for complaint management using Firebase, Node.js, React.</p>
             <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Firebase • Node.js • React</p>
           </a>
-          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-soft transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
               <img
-                src="public/image%20(1).png"
+                src="src/public/image%20(1).png"
                 alt="Emigration data management system login preview"
                 class="h-40 w-full object-cover sm:h-44"
               />
             </div>
             <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Emigration Data System</h3>
-            <p class="text-xs uppercase tracking-widest text-slate-400">Login experience</p>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Management</p>
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Data management UI for tracking demographic reports and records.</p>
             <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Dashboard • Reports • UX</p>
           </div>
-          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-soft transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
               <img
-                src="public/image%20(2).png"
+                src="src/public/image%20(2).png"
                 alt="Emigration analytics dashboard preview"
                 class="h-40 w-full object-cover sm:h-44"
               />
@@ -359,27 +409,27 @@
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Interactive forecasting and visualization tools for long-term insights.</p>
             <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Charts • Forecasting • Data</p>
           </div>
-          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-soft transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
             <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
               <img
-                src="public/image.png"
+                src="src/public/image.png"
                 alt="Student management system landing page preview"
                 class="h-40 w-full object-cover sm:h-44"
               />
             </div>
             <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Student Management System</h3>
-            <p class="text-xs uppercase tracking-widest text-slate-400">Enrollment portal</p>
+            <p class="text-xs uppercase tracking-widest text-slate-400">MACHINE LEARNING</p>
             <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Simple, clean interface for managing student records and accounts.</p>
             <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Records • Access • UI</p>
           </div>
         </div>
       </section>
 
-      <section class="section-anchor glass grid gap-6 rounded-3xl p-8 lg:grid-cols-[1.1fr_0.9fr]" id="contact">
+      <section class="section-anchor card grid gap-6 rounded-3xl p-8 lg:grid-cols-[1.1fr_0.9fr]" id="contact">
         <div>
           <h2 class="text-2xl font-semibold text-navy dark:text-white">Contact</h2>
           <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
-            Interested in collaboration or a project? Send a message or download the full resume.
+            Interested in collaboration or a project? Send a message or view the resume.
           </p>
           <div class="mt-6 space-y-3 text-sm text-slate-600 dark:text-slate-300">
             <p>Phone: +63 975 4793 107</p>
@@ -389,15 +439,15 @@
             <p>Facebook: <a class="text-gold" href="https://www.facebook.com/nisnisanob">facebook.com/nisnisanob</a></p>
           </div>
           <div class="mt-6 flex flex-wrap gap-3">
-            <a class="rounded-full bg-navy px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:opacity-90" href="public/Nisnisan_Resume.pdf" download>
-              Download Resume
-            </a>
-            <a class="rounded-full border border-navy px-5 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
-              View Portfolio
+            <a
+              class="rounded-full border border-navy px-5 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy"
+              href="https://nisnisan-resume.tiiny.site/"
+            >
+              View Resume
             </a>
           </div>
         </div>
-        <form class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+        <form class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-soft dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
           <div class="grid gap-4">
             <div>
               <label class="text-xs uppercase tracking-widest text-slate-400" for="name">Name</label>
@@ -420,7 +470,7 @@
     </main>
 
     <footer class="mx-auto max-w-6xl px-6 pb-10 sm:px-10 lg:px-16">
-      <div class="glass rounded-3xl px-8 py-6 text-sm text-slate-600 dark:text-slate-300">
+      <div class="card rounded-3xl px-8 py-6 text-sm text-slate-600 dark:text-slate-300">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <p class="font-semibold text-slate-900 dark:text-white">Let's build thoughtful, people-first digital experiences.</p>
           <div class="flex flex-wrap gap-4">
@@ -428,7 +478,6 @@
             <a class="text-gold transition hover:opacity-80" href="https://github.com/obeautipoll">GitHub</a>
             <a class="text-gold transition hover:opacity-80" href="https://www.linkedin.com/in/orlene-bliss-nisnisan-5425aa299/">LinkedIn</a>
             <a class="text-gold transition hover:opacity-80" href="https://www.facebook.com/nisnisanob">Facebook</a>
-            <a class="text-gold transition hover:opacity-80" href="https://getsamplessssss.my.canva.site/itsobnisnisan">Portfolio</a>
           </div>
         </div>
       </div>
