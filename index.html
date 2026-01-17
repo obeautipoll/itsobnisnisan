@@ -1,239 +1,255 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Orlene Bliss Nisnisan | Portfolio</title>
+    <script>
+      tailwind = {
+        config: {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                navy: "#0b1f3a",
+                gold: "#f5a524",
+                sand: "#f3f1ec",
+                ink: "#1c1c1c",
+              },
+            },
+          },
+        },
+      };
+    </script>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-      @import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,600;700&display=swap");
+      @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
 
       :root {
-        --ink: #1b1b1b;
-        --mist: #f6f3ee;
-        --warm: #f2e6d8;
-        --sun: #f9b54a;
-        --sage: #2f6f62;
+        color-scheme: light;
+      }
+
+      html {
+        scroll-behavior: smooth;
       }
 
       body {
-        font-family: "Space Grotesk", system-ui, -apple-system, sans-serif;
-        color: var(--ink);
-        background:
-          radial-gradient(circle at 15% 15%, rgba(249, 181, 74, 0.22), transparent 45%),
-          radial-gradient(circle at 85% 10%, rgba(47, 111, 98, 0.2), transparent 40%),
-          linear-gradient(140deg, var(--mist), #fff 55%, var(--warm));
+        font-family: "Poppins", system-ui, -apple-system, sans-serif;
+        background: radial-gradient(circle at top left, rgba(245, 165, 36, 0.12), transparent 45%),
+          radial-gradient(circle at 85% 15%, rgba(11, 31, 58, 0.08), transparent 40%),
+          linear-gradient(180deg, #f7f5f1, #f1eee8 60%, #f8f6f2);
       }
 
-      .title-font {
-        font-family: "Fraunces", "Space Grotesk", serif;
-      }
-
-      .grid-overlay {
-        position: fixed;
-        inset: 0;
-        background-image:
-          linear-gradient(to right, rgba(27, 27, 27, 0.06) 1px, transparent 1px),
-          linear-gradient(to bottom, rgba(27, 27, 27, 0.06) 1px, transparent 1px);
-        background-size: 48px 48px;
-        pointer-events: none;
-        opacity: 0.35;
-      }
-
-      .section-card {
+      .glass {
         background: rgba(255, 255, 255, 0.86);
-        border: 1px solid rgba(27, 27, 27, 0.08);
-        box-shadow: 0 20px 40px rgba(27, 27, 27, 0.08);
-        backdrop-filter: blur(6px);
+        border: 1px solid rgba(15, 23, 42, 0.08);
+        box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
       }
 
-      .reveal {
-        animation: fadeUp 0.9s ease forwards;
-        opacity: 0;
+      .nav-blur {
+        backdrop-filter: blur(12px);
       }
 
-      .reveal-delay-1 {
-        animation-delay: 0.15s;
+      .section-anchor {
+        scroll-margin-top: 110px;
       }
 
-      .reveal-delay-2 {
-        animation-delay: 0.3s;
+      .hero-ring {
+        background: linear-gradient(120deg, rgba(245, 165, 36, 0.3), rgba(11, 31, 58, 0.2));
       }
 
-      .reveal-delay-3 {
-        animation-delay: 0.45s;
+      .toggle-pill {
+        background: rgba(15, 23, 42, 0.08);
       }
 
-      @keyframes fadeUp {
-        from {
-          opacity: 0;
-          transform: translateY(16px);
-        }
-        to {
-          opacity: 1;
-          transform: translateY(0);
-        }
+      .dark body {
+        background: radial-gradient(circle at top left, rgba(245, 165, 36, 0.2), transparent 45%),
+          radial-gradient(circle at 85% 15%, rgba(148, 163, 184, 0.15), transparent 40%),
+          linear-gradient(180deg, #0b1f3a, #0f172a 60%, #0b1f3a);
+      }
+
+      .dark .glass {
+        background: rgba(15, 23, 42, 0.72);
+        border-color: rgba(148, 163, 184, 0.2);
+        box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
       }
     </style>
   </head>
-  <body class="min-h-screen">
-    <div class="grid-overlay" aria-hidden="true"></div>
+  <body class="text-ink">
+    <nav class="nav-blur sticky top-0 z-50 border-b border-slate-200/50 bg-white/80 dark:border-slate-700/40 dark:bg-slate-900/80">
+      <div class="mx-auto flex max-w-6xl items-center justify-between px-6 py-4 sm:px-10 lg:px-16">
+        <div>
+          <p class="text-xs uppercase tracking-[0.3em] text-slate-500 dark:text-slate-400">Portfolio</p>
+          <p class="text-lg font-semibold text-navy dark:text-white">Orlene Bliss Nisnisan</p>
+        </div>
+        <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
+          <a class="transition hover:text-gold" href="#education">Education</a>
+          <a class="transition hover:text-gold" href="#skills">Skills</a>
+          <a class="transition hover:text-gold" href="#experience">Experience</a>
+          <a class="transition hover:text-gold" href="#projects">Projects</a>
+          <a class="transition hover:text-gold" href="#leadership">Leadership</a>
+          <a class="transition hover:text-gold" href="#contact">Contact</a>
+        </div>
+        <div class="flex items-center gap-3">
+          <a
+            class="hidden rounded-full border border-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy sm:inline-flex"
+            href="public/Nisnisan_Resume.pdf"
+            download
+          >
+            Download Resume
+          </a>
+          <button
+            class="toggle-pill flex h-10 w-16 items-center rounded-full px-1 transition"
+            id="themeToggle"
+            type="button"
+            aria-label="Toggle dark mode"
+          >
+            <span
+              class="h-8 w-8 rounded-full bg-white text-xs font-semibold text-navy shadow transition"
+              id="toggleKnob"
+            >
+              Sun
+            </span>
+          </button>
+        </div>
+      </div>
+    </nav>
 
-    <main class="relative mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-16 pt-12 sm:px-10 lg:px-16">
-      <header class="reveal section-card rounded-3xl px-8 py-10 sm:px-12 sm:py-12">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-          <div>
-            <p class="text-sm uppercase tracking-[0.35em] text-slate-500">Portfolio</p>
-            <h1 class="title-font mt-3 text-4xl font-semibold sm:text-5xl">
-              Orlene Bliss Nisnisan
-            </h1>
-            <p class="mt-4 max-w-2xl text-base text-slate-700 sm:text-lg">
-              Aspiring database specialist and full-stack developer focused on building
-              clean, reliable systems that serve real people.
-            </p>
+    <main class="mx-auto flex max-w-6xl flex-col gap-10 px-6 pb-16 pt-10 sm:px-10 lg:px-16">
+      <section class="section-anchor glass grid gap-8 rounded-3xl p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr]" id="hero">
+        <div>
+          <p class="text-xs uppercase tracking-[0.45em] text-slate-500 dark:text-slate-400">Data + Web</p>
+          <h1 class="mt-4 text-4xl font-semibold text-navy dark:text-white sm:text-5xl">
+            Orlene Bliss Nisnisan
+          </h1>
+          <p class="mt-4 max-w-2xl text-sm text-slate-600 dark:text-slate-300 sm:text-base">
+            Information technology student focused on data systems and full-stack development.
+            I build clean, reliable platforms that make complex information easier to use.
+          </p>
+          <div class="mt-6 flex flex-wrap gap-3 text-xs uppercase tracking-widest text-slate-500 dark:text-slate-400">
+            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Database</span>
+            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Full-Stack</span>
+            <span class="rounded-full bg-sand px-4 py-2 text-navy dark:bg-slate-800 dark:text-white">Analytics</span>
           </div>
-          <div class="rounded-2xl bg-white/70 p-5 shadow-md">
-            <p class="text-sm font-semibold text-slate-600">Contact</p>
-            <div class="mt-2 flex flex-col gap-1 text-sm text-slate-700">
-              <span>+63 975 4793 107</span>
-              <a class="underline decoration-sun hover:text-slate-900" href="mailto:nisnisanob@gmail.com">
-                nisnisanob@gmail.com
-              </a>
-              <a class="underline decoration-sun hover:text-slate-900" href="https://github.com/obeautipoll">
-                github.com/obeautipoll
-              </a>
-              <a class="underline decoration-sun hover:text-slate-900" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
-                getsamplessssss.my.canva.site/itsobnisnisan
-              </a>
-            </div>
+          <div class="mt-6 flex flex-wrap items-center gap-4 text-sm text-slate-600 dark:text-slate-300">
+            <span>+63 975 4793 107</span>
+            <a class="text-gold transition hover:opacity-80" href="mailto:nisnisanob@gmail.com">nisnisanob@gmail.com</a>
+            <a class="text-gold transition hover:opacity-80" href="https://github.com/obeautipoll">github.com/obeautipoll</a>
+          </div>
+          <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
+            <a class="text-gold transition hover:opacity-80" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
+              getsamplessssss.my.canva.site/itsobnisnisan
+            </a>
           </div>
         </div>
-      </header>
+        <div class="flex flex-col items-center gap-6">
+          <div class="hero-ring flex h-48 w-48 items-center justify-center rounded-full">
+            <div class="h-40 w-40 overflow-hidden rounded-full border-4 border-white shadow-lg">
+              <img
+                src="public/pic.jpeg"
+                alt="Portrait of Orlene Bliss Nisnisan"
+                class="h-full w-full object-cover"
+              />
+            </div>
+          </div>
+          <div class="w-full rounded-2xl bg-white/80 p-4 text-sm text-slate-600 shadow-sm dark:bg-slate-800/70 dark:text-slate-200">
+            <p class="text-xs font-semibold uppercase tracking-widest text-slate-500 dark:text-slate-400">Now Focused</p>
+            <p class="mt-2">Database security, backend APIs, and human-centered UX.</p>
+          </div>
+        </div>
+      </section>
 
-      <section class="reveal reveal-delay-1 grid gap-6 lg:grid-cols-3">
-        <div class="section-card rounded-3xl p-8 lg:col-span-2">
-          <h2 class="title-font text-2xl font-semibold">Education</h2>
-          <div class="mt-6 space-y-6 text-sm text-slate-700">
+      <section class="section-anchor grid gap-6 lg:grid-cols-[1.4fr_0.6fr]" id="education">
+        <div class="glass rounded-3xl p-8">
+          <h2 class="text-2xl font-semibold text-navy dark:text-white">Education</h2>
+          <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300">
             <div>
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                   Mindanao State University-Iligan Institute of Technology
                 </h3>
-                <span class="text-sm text-slate-500">Aug 2022 – June 2026</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Aug 2022 – June 2026</span>
               </div>
-              <p class="mt-2">
-                B.S. in Information Technology Major in Database, GPA: 1.3 / 5.0
-              </p>
+              <p class="mt-2">B.S. in Information Technology Major in Database, GPA: 1.3 / 5.0</p>
             </div>
             <div>
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">
                   Corpus Christi Parochial School of Iligan Inc.
                 </h3>
-                <span class="text-sm text-slate-500">Aug 2020 – April 2022</span>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Aug 2020 – April 2022</span>
               </div>
-              <p class="mt-2">
-                Accountancy Business and Management, Average: 90 / 100
-              </p>
+              <p class="mt-2">Accountancy Business and Management, Average: 90 / 100</p>
             </div>
           </div>
         </div>
-        <div class="section-card rounded-3xl p-8">
-          <h2 class="title-font text-2xl font-semibold">Highlights</h2>
-          <div class="mt-6 space-y-5 text-sm text-slate-700">
+        <div class="glass rounded-3xl p-8">
+          <h2 class="text-2xl font-semibold text-navy dark:text-white">Highlights</h2>
+          <div class="mt-5 space-y-5 text-sm text-slate-600 dark:text-slate-300">
             <div>
-              <p class="text-sm font-semibold uppercase tracking-widest text-slate-500">
-                Coursework
-              </p>
-              <p class="mt-2">
-                Data Structures &amp; Algorithms, Computer Architecture, Database Security,
-                Admin &amp; Management, Startup Essentials, Big Data Analytics
-              </p>
+              <p class="text-xs uppercase tracking-widest text-slate-400">Relevant Coursework</p>
+              <p class="mt-2">Data Structures &amp; Algorithms, Computer Architecture, Database Security, Admin &amp; Management, Startup Essentials, Big Data Analytics</p>
             </div>
             <div>
-              <p class="text-sm font-semibold uppercase tracking-widest text-slate-500">
-                Extracurriculars
-              </p>
-              <p class="mt-2">
-                DevCon Iligan Volunteers, College Literary Committee, CCCM’s CoreGroup
-              </p>
+              <p class="text-xs uppercase tracking-widest text-slate-400">Extracurriculars</p>
+              <p class="mt-2">DevCon Iligan Volunteers, College Literary Committee, CCCM CoreGroup</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="reveal reveal-delay-2 section-card rounded-3xl p-8 sm:p-10">
-        <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+      <section class="section-anchor glass rounded-3xl p-8" id="skills">
+        <div class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
           <div>
-            <h2 class="title-font text-2xl font-semibold">Technical Skills</h2>
-            <p class="mt-3 max-w-2xl text-sm text-slate-700">
-              Blending data-driven foundations with modern web tooling to build
-              thoughtful, reliable experiences.
+            <h2 class="text-2xl font-semibold text-navy dark:text-white">Technical Skills</h2>
+            <p class="mt-3 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
+              A practical toolkit for building scalable, readable, and secure applications.
             </p>
           </div>
-          <div class="flex flex-wrap gap-3">
-            <span class="rounded-full bg-slate-900 px-4 py-1 text-xs uppercase tracking-widest text-white">
-              Core Stack
-            </span>
-            <span class="rounded-full bg-sun px-4 py-1 text-xs uppercase tracking-widest text-slate-900">
-              Data + Web
-            </span>
+          <div class="flex flex-wrap gap-3 text-xs uppercase tracking-widest">
+            <span class="rounded-full bg-navy px-4 py-2 text-white">Languages</span>
+            <span class="rounded-full bg-gold px-4 py-2 text-navy">Tools</span>
           </div>
         </div>
         <div class="mt-8 grid gap-6 md:grid-cols-2">
-          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6">
-            <h3 class="text-sm font-semibold uppercase tracking-widest text-slate-500">
-              Programming Languages
-            </h3>
-            <p class="mt-3 text-sm text-slate-700">
-              Python, Java, JavaScript, PHP, Typescript, HTML/CSS
-            </p>
+          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+            <h3 class="text-xs uppercase tracking-widest text-slate-400">Programming Languages</h3>
+            <p class="mt-3">Python, Java, JavaScript, PHP, Typescript, HTML/CSS</p>
           </div>
-          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6">
-            <h3 class="text-sm font-semibold uppercase tracking-widest text-slate-500">
-              Frameworks &amp; Tools
-            </h3>
-            <p class="mt-3 text-sm text-slate-700">
-              MySQL, Redis, MongoDB, Tailwind CSS, Jupyter Notebook, React.js,
-              Node.js, IntelliJ IDEA, Xampp
-            </p>
+          <div class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+            <h3 class="text-xs uppercase tracking-widest text-slate-400">Frameworks &amp; Tools</h3>
+            <p class="mt-3">MySQL, Redis, MongoDB, Tailwind CSS, Jupyter Notebook, React.js, Node.js, IntelliJ IDEA, Xampp</p>
           </div>
         </div>
       </section>
 
-      <section class="reveal reveal-delay-3 grid gap-6 lg:grid-cols-2">
-        <div class="section-card rounded-3xl p-8">
-          <h2 class="title-font text-2xl font-semibold">Work Experience</h2>
-          <div class="mt-6 space-y-6 text-sm text-slate-700">
-            <div>
+      <section class="section-anchor grid gap-6 lg:grid-cols-2" id="experience">
+        <div class="glass rounded-3xl p-8">
+          <h2 class="text-2xl font-semibold text-navy dark:text-white">Work Experience</h2>
+          <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300">
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
-                  Private Contract · Data Management Specialist
-                </h3>
-                <span class="text-sm text-slate-500">Oct 2022 - Mar 2023</span>
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Private Contract · Data Management Specialist</h3>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Oct 2022 – Mar 2023</span>
               </div>
               <ul class="mt-3 space-y-2">
                 <li>Managed large datasets, improved data processing efficiency by 30%.</li>
                 <li>Used Google Sheets and Excel for data analytics, improving decision-making by 20%.</li>
               </ul>
             </div>
-            <div>
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
-                  Freelance · Website Designer and Developer
-                </h3>
-                <span class="text-sm text-slate-500">Sept 2022 – Jan 2023</span>
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Freelance · Website Designer and Developer</h3>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Sept 2022 – Jan 2023</span>
               </div>
               <ul class="mt-3 space-y-2">
                 <li>Designed 10+ responsive websites, boosting client satisfaction by 25%.</li>
               </ul>
             </div>
-            <div>
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
               <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
-                  Preply · Mathematics Mentor
-                </h3>
-                <span class="text-sm text-slate-500">Oct 2025 – Dec 2025</span>
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Preply · Mathematics Mentor</h3>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Oct 2025 – Dec 2025</span>
               </div>
               <ul class="mt-3 space-y-2">
                 <li>Helped students improve grades by 20%, created engaging learning materials.</li>
@@ -241,132 +257,148 @@
             </div>
           </div>
         </div>
-        <div class="section-card rounded-3xl p-8">
-          <h2 class="title-font text-2xl font-semibold">Projects</h2>
-          <div class="mt-6 space-y-6 text-sm text-slate-700">
-            <div>
-              <h3 class="text-lg font-semibold text-slate-900">
-                e-SKEDLAV - Tutoring System
-              </h3>
-              <p class="text-sm text-slate-500">Capstone, Apr 2025 – Jan 2026</p>
-              <p class="mt-2">
-                Full-stack platform for managing tutor sessions using SQL, Supabase, React.
-              </p>
+        <div class="glass rounded-3xl p-8">
+          <h2 class="text-2xl font-semibold text-navy dark:text-white">Leadership Experience</h2>
+          <div class="mt-6 space-y-6 text-sm text-slate-600 dark:text-slate-300" id="leadership">
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
+              <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">College of Computer Studies - Student Council</h3>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Aug 2024 – Present</span>
+              </div>
+              <p class="mt-2">Undersecretary of Literary Committee, organizes literary events and Battle of the Brains competition.</p>
             </div>
-            <div>
-              <h3 class="text-lg font-semibold text-slate-900">SpeakUp</h3>
-              <p class="text-sm text-slate-500">Aug – Nov 2025</p>
-              <p class="mt-2">
-                Backend development for complaint management using Firebase, Node.js, React.
-              </p>
-            </div>
-            <div>
-              <h3 class="text-lg font-semibold text-slate-900">
-                Barangay Management System
-              </h3>
-              <p class="text-sm text-slate-500">Feb – Apr 2025</p>
-              <p class="mt-2">
-                Automated data management system using JavaScript, Redis, CSS.
-              </p>
+            <div class="rounded-2xl border border-slate-200 bg-white/70 p-5 dark:border-slate-700 dark:bg-slate-900/50">
+              <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                <h3 class="text-lg font-semibold text-slate-900 dark:text-white">Catholic Center Campus Ministry</h3>
+                <span class="text-xs uppercase tracking-widest text-slate-400">Aug 2022 – Present</span>
+              </div>
+              <p class="mt-2">Core Group Leader, leads community and ministry activities, organizes outreach programs.</p>
             </div>
           </div>
         </div>
       </section>
 
-      <section class="reveal reveal-delay-3 grid gap-6 lg:grid-cols-2">
-        <div class="section-card rounded-3xl p-8">
-          <h2 class="title-font text-2xl font-semibold">Leadership Experience</h2>
-          <div class="mt-6 space-y-6 text-sm text-slate-700">
-            <div>
-              <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
-                  College of Computer Studies - Student Council
-                </h3>
-                <span class="text-sm text-slate-500">Aug 2024 – Present</span>
-              </div>
-              <p class="mt-2">
-                Undersecretary of Literary Committee — organizes literary events and
-                Battle of the Brains competition.
-              </p>
-            </div>
-            <div>
-              <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
-                <h3 class="text-lg font-semibold text-slate-900">
-                  Catholic Center Campus Ministry
-                </h3>
-                <span class="text-sm text-slate-500">Aug 2022 – Present</span>
-              </div>
-              <p class="mt-2">
-                Core Group Leader — leads community and ministry activities, organizes outreach programs.
-              </p>
-            </div>
+      <section class="section-anchor glass rounded-3xl p-8" id="projects">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-2xl font-semibold text-navy dark:text-white">Projects</h2>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Hover to preview focus areas and tech stacks. Image slots are ready for your screenshots.
+            </p>
+          </div>
+          <span class="rounded-full bg-gold px-4 py-2 text-xs uppercase tracking-widest text-navy">Visual Showcase</span>
+        </div>
+        <div class="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+            <div class="flex h-36 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-100 text-xs uppercase tracking-widest text-slate-400 dark:border-slate-600 dark:bg-slate-800">Image Slot</div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">e-SKEDLAV - Tutoring System</h3>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Capstone, Apr 2025 – Jan 2026</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Full-stack platform for managing tutor sessions using SQL, Supabase, React.</p>
+            <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">SQL • Supabase • React</p>
+          </div>
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+            <div class="flex h-36 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-100 text-xs uppercase tracking-widest text-slate-400 dark:border-slate-600 dark:bg-slate-800">Image Slot</div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">SpeakUp</h3>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Aug – Nov 2025</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Backend development for complaint management using Firebase, Node.js, React.</p>
+            <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Firebase • Node.js • React</p>
+          </div>
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+            <div class="flex h-36 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-100 text-xs uppercase tracking-widest text-slate-400 dark:border-slate-600 dark:bg-slate-800">Image Slot</div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Barangay Management System</h3>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Feb – Apr 2025</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Automated data management system using JavaScript, Redis, CSS.</p>
+            <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">JavaScript • Redis • CSS</p>
+          </div>
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+            <div class="flex h-36 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-100 text-xs uppercase tracking-widest text-slate-400 dark:border-slate-600 dark:bg-slate-800">Image Slot</div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Sample Project 04</h3>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Placeholder</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Reserved for upcoming project details and visuals.</p>
+            <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Add tools later</p>
+          </div>
+          <div class="group rounded-2xl border border-slate-200 bg-white/80 p-5 shadow-sm transition hover:-translate-y-1 dark:border-slate-700 dark:bg-slate-900/60">
+            <div class="flex h-36 items-center justify-center rounded-xl border border-dashed border-slate-300 bg-slate-100 text-xs uppercase tracking-widest text-slate-400 dark:border-slate-600 dark:bg-slate-800">Image Slot</div>
+            <h3 class="mt-4 text-lg font-semibold text-slate-900 dark:text-white">Sample Project 05</h3>
+            <p class="text-xs uppercase tracking-widest text-slate-400">Placeholder</p>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Reserved for upcoming project details and visuals.</p>
+            <p class="mt-3 text-xs text-gold opacity-0 transition group-hover:opacity-100">Add tools later</p>
           </div>
         </div>
-        <div class="section-card rounded-3xl p-8">
-          <h2 class="title-font text-2xl font-semibold">Contact</h2>
-          <p class="mt-3 text-sm text-slate-700">
-            For inquiries, collaborations, or opportunities, send a message below.
+      </section>
+
+      <section class="section-anchor glass grid gap-6 rounded-3xl p-8 lg:grid-cols-[1.1fr_0.9fr]" id="contact">
+        <div>
+          <h2 class="text-2xl font-semibold text-navy dark:text-white">Contact</h2>
+          <p class="mt-3 text-sm text-slate-600 dark:text-slate-300">
+            Interested in collaboration or a project? Send a message or download the full resume.
           </p>
-          <form class="mt-6 space-y-4">
+          <div class="mt-6 space-y-3 text-sm text-slate-600 dark:text-slate-300">
+            <p>Phone: +63 975 4793 107</p>
+            <p>Email: <a class="text-gold" href="mailto:nisnisanob@gmail.com">nisnisanob@gmail.com</a></p>
+            <p>GitHub: <a class="text-gold" href="https://github.com/obeautipoll">github.com/obeautipoll</a></p>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-3">
+            <a class="rounded-full bg-navy px-5 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:opacity-90" href="public/Nisnisan_Resume.pdf" download>
+              Download Resume
+            </a>
+            <a class="rounded-full border border-navy px-5 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
+              View Portfolio
+            </a>
+          </div>
+        </div>
+        <form class="rounded-2xl border border-slate-200 bg-white/80 p-6 text-sm text-slate-600 shadow-sm dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-200">
+          <div class="grid gap-4">
             <div>
-              <label class="text-xs uppercase tracking-widest text-slate-500" for="name">Name</label>
-              <input
-                class="mt-2 w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-700 outline-none ring-0 focus:border-slate-400"
-                id="name"
-                name="name"
-                type="text"
-                placeholder="Your full name"
-              />
+              <label class="text-xs uppercase tracking-widest text-slate-400" for="name">Name</label>
+              <input class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-gold dark:border-slate-700 dark:bg-slate-900" id="name" name="name" type="text" placeholder="Your full name" />
             </div>
             <div>
-              <label class="text-xs uppercase tracking-widest text-slate-500" for="email">Email</label>
-              <input
-                class="mt-2 w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-700 outline-none ring-0 focus:border-slate-400"
-                id="email"
-                name="email"
-                type="email"
-                placeholder="you@email.com"
-              />
+              <label class="text-xs uppercase tracking-widest text-slate-400" for="email">Email</label>
+              <input class="mt-2 w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-gold dark:border-slate-700 dark:bg-slate-900" id="email" name="email" type="email" placeholder="you@email.com" />
             </div>
             <div>
-              <label class="text-xs uppercase tracking-widest text-slate-500" for="message">Message</label>
-              <textarea
-                class="mt-2 min-h-[120px] w-full rounded-xl border border-slate-200 bg-white/90 px-4 py-3 text-sm text-slate-700 outline-none ring-0 focus:border-slate-400"
-                id="message"
-                name="message"
-                placeholder="Share a quick note about your project or question."
-              ></textarea>
+              <label class="text-xs uppercase tracking-widest text-slate-400" for="message">Message</label>
+              <textarea class="mt-2 min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none focus:border-gold dark:border-slate-700 dark:bg-slate-900" id="message" name="message" placeholder="Share a quick note about your project or question."></textarea>
             </div>
-            <button
-              class="w-full rounded-xl bg-slate-900 px-5 py-3 text-sm font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-slate-800"
-              type="submit"
-            >
+            <button class="rounded-xl bg-gold px-5 py-3 text-xs font-semibold uppercase tracking-widest text-navy transition hover:-translate-y-0.5" type="submit">
               Send Inquiry
             </button>
-          </form>
-        </div>
+          </div>
+        </form>
       </section>
     </main>
 
-    <footer class="relative mx-auto max-w-6xl px-6 pb-10 sm:px-10 lg:px-16">
-      <div class="section-card rounded-3xl px-8 py-6 text-sm text-slate-700">
+    <footer class="mx-auto max-w-6xl px-6 pb-10 sm:px-10 lg:px-16">
+      <div class="glass rounded-3xl px-8 py-6 text-sm text-slate-600 dark:text-slate-300">
         <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <p class="font-semibold text-slate-900">
-            Let’s build thoughtful, people-first digital experiences.
-          </p>
+          <p class="font-semibold text-slate-900 dark:text-white">Let's build thoughtful, people-first digital experiences.</p>
           <div class="flex flex-wrap gap-4">
-            <a class="underline decoration-sun hover:text-slate-900" href="mailto:nisnisanob@gmail.com">
-              Email
-            </a>
-            <a class="underline decoration-sun hover:text-slate-900" href="https://github.com/obeautipoll">
-              GitHub
-            </a>
-            <a class="underline decoration-sun hover:text-slate-900" href="https://getsamplessssss.my.canva.site/itsobnisnisan">
-              Portfolio
-            </a>
+            <a class="text-gold transition hover:opacity-80" href="mailto:nisnisanob@gmail.com">Email</a>
+            <a class="text-gold transition hover:opacity-80" href="https://github.com/obeautipoll">GitHub</a>
+            <a class="text-gold transition hover:opacity-80" href="https://getsamplessssss.my.canva.site/itsobnisnisan">Portfolio</a>
           </div>
         </div>
       </div>
     </footer>
+
+    <script>
+      const toggle = document.getElementById("themeToggle");
+      const knob = document.getElementById("toggleKnob");
+      const root = document.documentElement;
+      const storedTheme = localStorage.getItem("theme");
+
+      if (storedTheme === "dark") {
+        root.classList.add("dark");
+        knob.textContent = "Moon";
+      }
+
+      toggle.addEventListener("click", () => {
+        root.classList.toggle("dark");
+        const isDark = root.classList.contains("dark");
+        knob.textContent = isDark ? "Moon" : "Sun";
+        localStorage.setItem("theme", isDark ? "dark" : "light");
+      });
+    </script>
   </body>
 </html>
