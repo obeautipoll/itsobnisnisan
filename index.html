@@ -72,6 +72,21 @@
         border-color: rgba(255, 255, 255, 0.05);
       }
 
+      .modal-overlay {
+        background: rgba(15, 23, 42, 0.72);
+      }
+
+      .modal-panel {
+        transform: scale(0.96);
+        opacity: 0;
+        transition: all 0.25s ease;
+      }
+
+      .modal-open .modal-panel {
+        transform: scale(1);
+        opacity: 1;
+      }
+
       /* Scroll Reveal Animation */
       .reveal {
         opacity: 0;
@@ -124,6 +139,7 @@
           <a class="hover:text-gold transition-colors" href="#skills">Skills</a>
           <a class="hover:text-gold transition-colors" href="#experience">Experience</a>
           <a class="hover:text-gold transition-colors" href="#projects">Projects</a>
+          <a class="hover:text-gold transition-colors" href="#certificates">Certificates</a>
           <a class="hover:text-gold transition-colors" href="#leadership">Leadership</a>
         </div>
 
@@ -436,6 +452,95 @@
         </div>
       </section>
 
+      <section class="reveal section-anchor" id="certificates">
+        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-3xl font-bold text-navy dark:text-white">Certificates</h2>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
+              Verified learning milestones and professional training certificates.
+            </p>
+          </div>
+          <span class="self-start rounded-full bg-gold px-4 py-2 text-xs font-bold uppercase tracking-widest text-navy">PDF Gallery</span>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
+            <p class="text-xs font-bold uppercase tracking-widest text-gold">CSS Essentials</p>
+            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">CSS Essentials</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Core CSS foundations and layout mastery.</p>
+            <button
+              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
+              type="button"
+              data-pdf="src/public/certificates/CSSEssentialsv120251212-30-uoihw8.pdf"
+              data-title="CSS Essentials"
+            >
+              <i class="ri-file-pdf-line text-base"></i>
+              View Certificate
+            </button>
+          </div>
+
+          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
+            <p class="text-xs font-bold uppercase tracking-widest text-gold">Hour of Code</p>
+            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">December 2024 HoC</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Completed Hour of Code learning challenge.</p>
+            <button
+              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
+              type="button"
+              data-pdf="src/public/certificates/December%202024%20HoC%20Certificate%20BLISS%20NISNISAN.pdf"
+              data-title="December 2024 HoC Certificate"
+            >
+              <i class="ri-file-pdf-line text-base"></i>
+              View Certificate
+            </button>
+          </div>
+
+          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
+            <p class="text-xs font-bold uppercase tracking-widest text-gold">HTML Essentials</p>
+            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">HTML Essentials</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Semantic HTML structures and accessibility basics.</p>
+            <button
+              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
+              type="button"
+              data-pdf="src/public/certificates/HTMLEssentialsv120250925-31-f0obhk.pdf"
+              data-title="HTML Essentials"
+            >
+              <i class="ri-file-pdf-line text-base"></i>
+              View Certificate
+            </button>
+          </div>
+
+          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
+            <p class="text-xs font-bold uppercase tracking-widest text-gold">JavaScript</p>
+            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">JavaScript Essentials 1</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Core JavaScript syntax, logic, and DOM basics.</p>
+            <button
+              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
+              type="button"
+              data-pdf="src/public/certificates/JavaScript_Essentials_1_certificate_orlenebliss-nisnisan-g-msuiit-edu-ph_ff7847a8-fb5e-4edc-8988-947a7f67f26f.pdf"
+              data-title="JavaScript Essentials 1"
+            >
+              <i class="ri-file-pdf-line text-base"></i>
+              View Certificate
+            </button>
+          </div>
+
+          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
+            <p class="text-xs font-bold uppercase tracking-widest text-gold">Wadhwani</p>
+            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Wadhwani Foundation</h3>
+            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Entrepreneurship and innovation fundamentals.</p>
+            <button
+              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
+              type="button"
+              data-pdf="src/public/certificates/Wadhwani%20Foundation%20Certificate%20-%206938cb9349e895be1f165b4d.pdf"
+              data-title="Wadhwani Foundation Certificate"
+            >
+              <i class="ri-file-pdf-line text-base"></i>
+              View Certificate
+            </button>
+          </div>
+        </div>
+      </section>
+
       <section class="reveal section-anchor" id="leadership">
         <h2 class="text-3xl font-bold text-navy dark:text-white mb-8">Leadership</h2>
         <div class="grid gap-6 md:grid-cols-2">
@@ -510,6 +615,29 @@
       </section>
     </main>
 
+    <div id="certificateModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center px-6 py-10">
+      <div class="modal-panel w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl dark:bg-slate-900">
+        <div class="flex items-center justify-between gap-4">
+          <h3 id="certificateTitle" class="text-lg font-bold text-navy dark:text-white">Certificate</h3>
+          <button
+            id="closeCertificate"
+            type="button"
+            class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-500 transition hover:border-gold hover:text-gold dark:border-slate-700 dark:text-slate-300"
+          >
+            Close
+          </button>
+        </div>
+        <div class="mt-4 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
+          <iframe
+            id="certificateFrame"
+            title="Certificate preview"
+            class="h-full w-full"
+            src=""
+          ></iframe>
+        </div>
+      </div>
+    </div>
+
     <footer class="mt-12 border-t border-slate-200 bg-white/60 py-10 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
       <div class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:justify-between sm:px-10">
         <p class="text-sm text-slate-500">© 2026 Orlene Bliss Nisnisan. All rights reserved.</p>
@@ -552,6 +680,37 @@
         });
       }, { threshold: 0.1 });
       document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+
+      // Certificates Modal
+      const certificateModal = document.getElementById("certificateModal");
+      const certificateFrame = document.getElementById("certificateFrame");
+      const certificateTitle = document.getElementById("certificateTitle");
+      const closeCertificate = document.getElementById("closeCertificate");
+      const certificateButtons = document.querySelectorAll("[data-pdf]");
+
+      const openCertificate = (src, title) => {
+        certificateFrame.src = src;
+        certificateTitle.textContent = title;
+        certificateModal.classList.remove("hidden");
+        certificateModal.classList.add("flex", "modal-open");
+      };
+
+      const closeCertificateModal = () => {
+        certificateModal.classList.add("hidden");
+        certificateModal.classList.remove("flex", "modal-open");
+        certificateFrame.src = "";
+      };
+
+      certificateButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          openCertificate(button.dataset.pdf, button.dataset.title || "Certificate");
+        });
+      });
+
+      closeCertificate.addEventListener("click", closeCertificateModal);
+      certificateModal.addEventListener("click", (event) => {
+        if (event.target === certificateModal) closeCertificateModal();
+      });
 
       // Back to Top
       const backToTopBtn = document.getElementById("backToTop");
