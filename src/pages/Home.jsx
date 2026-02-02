@@ -1,5 +1,5 @@
 ﻿import { useEffect, useMemo, useState } from "react";
-import { fetchContent } from "../lib/api";
+import { fetchContent, submitContact } from "../lib/api";
 import defaultContent from "../content/defaultContent";
 
 const Home = () => {
@@ -13,6 +13,12 @@ const Home = () => {
     open: false,
     src: "",
     title: "Certificate",
+  });
+  const [contactStatus, setContactStatus] = useState("");
+  const [contactForm, setContactForm] = useState({
+    name: "",
+    email: "",
+    message: "",
   });
 
   useEffect(() => {
@@ -406,10 +412,7 @@ const Home = () => {
                   </p>
                   <ul className="list-disc list-outside ml-4 text-sm text-slate-600 dark:text-slate-300 space-y-1">
                     {role.bullets?.map((item) => (
-                      <li
-                        key={item}
-                        dangerouslySetInnerHTML={{ __html: item }}
-                      ></li>
+                      <li key={item}>{item}</li>
                     ))}
                   </ul>
                 </div>
@@ -628,9 +631,16 @@ const Home = () => {
 
           <form
             className="rounded-2xl border border-slate-200 bg-white/50 p-6 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/50"
-            onSubmit={(event) => {
+            onSubmit={async (event) => {
               event.preventDefault();
-              alert("Message Sent!");
+              setContactStatus("Sending...");
+              try {
+                await submitContact(contactForm);
+                setContactStatus("Message sent!");
+                setContactForm({ name: "", email: "", message: "" });
+              } catch (err) {
+                setContactStatus("Failed to send. Try again.");
+              }
             }}
           >
             <div className="grid gap-5">
@@ -646,6 +656,14 @@ const Home = () => {
                   id="name"
                   type="text"
                   placeholder="Your Name"
+                  value={contactForm.name}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      name: event.target.value,
+                    }))
+                  }
+                  required
                 />
               </div>
               <div>
@@ -660,6 +678,14 @@ const Home = () => {
                   id="email"
                   type="email"
                   placeholder="email@example.com"
+                  value={contactForm.email}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      email: event.target.value,
+                    }))
+                  }
+                  required
                 />
               </div>
               <div>
@@ -673,6 +699,14 @@ const Home = () => {
                   className="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   id="message"
                   placeholder="How can I help you?"
+                  value={contactForm.message}
+                  onChange={(event) =>
+                    setContactForm((prev) => ({
+                      ...prev,
+                      message: event.target.value,
+                    }))
+                  }
+                  required
                 ></textarea>
               </div>
               <button
@@ -681,6 +715,9 @@ const Home = () => {
               >
                 Send Message
               </button>
+              {contactStatus && (
+                <p className="text-sm text-slate-500">{contactStatus}</p>
+              )}
             </div>
           </form>
         </section>

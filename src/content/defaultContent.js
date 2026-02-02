@@ -69,7 +69,7 @@ const defaultContent = {
       title: "Data Management Specialist",
       period: "Private Contract - Oct 2022 - Mar 2023",
       bullets: [
-        "Managed large datasets using Excel macros, resulting in a <span class='font-bold text-gold'>30% increase in efficiency</span>.",
+        "Managed large datasets using Excel macros, resulting in a 30% increase in efficiency.",
         "Utilized Google Sheets/Excel for analytics, leading to a 20% improvement in decision-making accuracy.",
       ],
     },
@@ -78,7 +78,7 @@ const defaultContent = {
       period: "Freelance - Sept 2022 - Jan 2023",
       bullets: [
         "Designed 10+ responsive websites using HTML, CSS, and JS, boosting client satisfaction by 25%.",
-        "Achieved a <span class='font-bold text-gold'>90% client retention rate</span> by customizing dynamic mobile layouts.",
+        "Achieved a 90% client retention rate by customizing dynamic mobile layouts.",
       ],
     },
     {
@@ -86,7 +86,7 @@ const defaultContent = {
       period: "Preply - Oct 2025 - Dec 2025",
       bullets: [
         "Helped students improve grades by an average of 20% through personalized online lessons.",
-        "Created engaging materials resulting in a <span class='font-bold text-gold'>90% student satisfaction rate</span>.",
+        "Created engaging materials resulting in a 90% student satisfaction rate.",
       ],
     },
   ],

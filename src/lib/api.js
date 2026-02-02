@@ -39,3 +39,30 @@ export const saveContent = (content) =>
     method: "PUT",
     body: JSON.stringify({ content }),
   });
+
+export const uploadImage = async (file) => {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  const token = getToken();
+  const res = await fetch(`${baseUrl}/api/upload`, {
+    method: "POST",
+    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
+    body: formData,
+  });
+
+  if (!res.ok) {
+    const message = await res.text();
+    throw new Error(message || "Upload failed");
+  }
+
+  return res.json();
+};
+
+export const submitContact = (payload) =>
+  request("/api/contact", {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+export const fetchMessages = () => request("/api/messages");

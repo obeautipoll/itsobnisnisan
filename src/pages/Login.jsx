@@ -39,7 +39,7 @@ const Login = () => {
           <div className="mt-6 space-y-4">
             <div>
               <label className="text-xs font-bold uppercase tracking-widest text-slate-400">
-                Username
+                Email
               </label>
               <input
                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm"
