@@ -3,15 +3,24 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
     <title>Orlene Bliss Nisnisan | Portfolio</title>
-    <link rel="icon" type="image/png" href="src/public/logo.png" />
-    <meta name="description" content="Portfolio of Orlene Bliss Nisnisan - IT Student, Data Specialist, and Full-Stack Developer.">
+    <link rel="icon" type="image/png" href="/logo.png" />
+    <meta
+      name="description"
+      content="Portfolio of Orlene Bliss Nisnisan - IT Student, Data Specialist, and Full-Stack Developer."
+    />
 
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
 
-    <link rel="stylesheet" type='text/css' href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css" />
-    <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet"/>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
 
     <style>
       @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
@@ -35,37 +44,57 @@
               soft: "0 16px 30px rgba(15, 23, 42, 0.08)",
             },
             animation: {
-              'spin-slow': 'spin 8s linear infinite',
-            }
+              "spin-slow": "spin 8s linear infinite",
+            },
           },
         },
       };
     </script>
 
     <style>
-      :root { color-scheme: light; }
+      :root {
+        color-scheme: light;
+      }
       body {
         font-family: "Poppins", sans-serif;
         color: #0b0b0b;
-        background: radial-gradient(circle at 15% 10%, rgba(245, 165, 36, 0.15), transparent 45%),
-                    radial-gradient(circle at 85% 15%, rgba(11, 31, 58, 0.08), transparent 45%),
-                    linear-gradient(180deg, #f7f5f1, #f1eee8 60%, #faf8f5);
+        background: radial-gradient(
+            circle at 15% 10%,
+            rgba(245, 165, 36, 0.15),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(11, 31, 58, 0.08),
+            transparent 45%
+          ),
+          linear-gradient(180deg, #f7f5f1, #f1eee8 60%, #faf8f5);
       }
-      
-      .section-anchor { scroll-margin-top: 100px; }
+
+      .section-anchor {
+        scroll-margin-top: 100px;
+      }
 
       .card {
         background: rgba(255, 255, 255, 0.9);
         backdrop-filter: blur(12px);
         border: 1px solid rgba(255, 255, 255, 0.6);
-        box-shadow: 0 10px 40px rgba(0,0,0,0.05);
+        box-shadow: 0 10px 40px rgba(0, 0, 0, 0.05);
       }
 
       .dark body {
         color: #e5e7eb;
-        background: radial-gradient(circle at 15% 10%, rgba(245, 165, 36, 0.15), transparent 45%),
-                    radial-gradient(circle at 85% 15%, rgba(11, 31, 58, 0.3), transparent 45%),
-                    linear-gradient(180deg, #0b1f3a, #0f172a 60%, #050b14);
+        background: radial-gradient(
+            circle at 15% 10%,
+            rgba(245, 165, 36, 0.15),
+            transparent 45%
+          ),
+          radial-gradient(
+            circle at 85% 15%,
+            rgba(11, 31, 58, 0.3),
+            transparent 45%
+          ),
+          linear-gradient(180deg, #0b1f3a, #0f172a 60%, #050b14);
       }
       .dark .card {
         background: rgba(15, 23, 42, 0.8);
@@ -87,7 +116,6 @@
         opacity: 1;
       }
 
-      /* Scroll Reveal Animation */
       .reveal {
         opacity: 0;
         transform: translateY(30px);
@@ -98,7 +126,6 @@
         transform: translateY(0);
       }
 
-      /* Loader */
       #loader {
         position: fixed;
         inset: 0;
@@ -109,617 +136,13 @@
         align-items: center;
         transition: opacity 0.5s ease;
       }
-      .dark #loader { background: #0b1f3a; }
+      .dark #loader {
+        background: #0b1f3a;
+      }
     </style>
   </head>
   <body class="text-ink relative selection:bg-gold/30">
-    
-    <div id="loader">
-      <div class="h-12 w-12 animate-spin rounded-full border-4 border-gold border-t-transparent"></div>
-    </div>
-
-    <button id="backToTop" onclick="scrollToTop()" class="fixed bottom-8 right-8 z-40 hidden rounded-full bg-navy p-3 text-white shadow-lg transition hover:bg-gold hover:-translate-y-1 dark:bg-gold dark:text-navy dark:hover:bg-white">
-      <i class="ri-arrow-up-line text-xl"></i>
-    </button>
-
-    <nav class="sticky top-0 z-50 border-b border-slate-200/60 bg-white/85 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/80">
-      <div class="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4 sm:px-10 lg:px-16">
-        <a href="#" class="flex items-center gap-3 group">
-          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-navy text-gold font-bold text-xl group-hover:rotate-12 transition duration-300">
-            OB
-          </div>
-          <div>
-            <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Portfolio</p>
-            <p class="text-sm font-bold text-navy dark:text-white sm:text-lg">Orlene Bliss</p>
-          </div>
-        </a>
-
-        <div class="hidden items-center gap-6 text-sm font-medium text-slate-600 dark:text-slate-300 md:flex">
-          <a class="hover:text-gold transition-colors" href="#education">Education</a>
-          <a class="hover:text-gold transition-colors" href="#skills">Skills</a>
-          <a class="hover:text-gold transition-colors" href="#experience">Experience</a>
-          <a class="hover:text-gold transition-colors" href="#projects">Projects</a>
-          <a class="hover:text-gold transition-colors" href="#certificates">Certificates</a>
-          <a class="hover:text-gold transition-colors" href="#leadership">Leadership</a>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <a class="hidden sm:block rounded-full border border-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy"
-             href="https://nisnisan-resume.tiiny.site/" target="_blank">
-             Resume
-          </a>
-          <button class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-slate-600 transition hover:bg-slate-200 dark:bg-slate-800 dark:text-gold"
-            id="themeToggle">
-            <i class="ri-sun-line text-xl" id="toggleIcon"></i>
-          </button>
-        </div>
-      </div>
-    </nav>
-
-    <main class="mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-16 pt-10 sm:px-10 lg:px-16">
-      
-      <section class="reveal section-anchor card grid gap-8 rounded-[32px] p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] items-center" id="hero">
-        <div>
-          <div class="inline-flex items-center gap-2 rounded-full bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold mb-4">
-            <span class="h-2 w-2 rounded-full bg-gold animate-pulse"></span> Data + Web
-          </div>
-          <h1 class="text-4xl font-bold leading-tight text-navy dark:text-white sm:text-5xl lg:text-6xl">
-            Orlene Bliss Nisnisan
-          </h1>
-          <p class="mt-6 max-w-xl text-slate-600 dark:text-slate-300 leading-relaxed">
-            Information Technology student specializing in database, full-stack development, and data analytics.
-          </p>
-          
-          <div class="mt-8 flex flex-wrap gap-4">
-            <a href="#projects" class="rounded-full bg-navy px-8 py-3 text-sm font-semibold text-white shadow-lg transition hover:-translate-y-1 hover:bg-navy/90 dark:bg-white dark:text-navy">
-              View Projects
-            </a>
-            <div class="flex gap-3">
-              <a href="https://github.com/obeautipoll" target="_blank" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-600 transition hover:border-gold hover:text-gold dark:border-slate-600 dark:text-slate-400"><i class="devicon-github-original text-xl"></i></a>
-              <a href="https://www.facebook.com/nisnisanob" target="_blank" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-600 transition hover:border-gold hover:text-gold dark:border-slate-600 dark:text-slate-400"><i class="ri-facebook-fill text-xl"></i></a>
-              <a href="mailto:nisnisanob@gmail.com" class="flex h-10 w-10 items-center justify-center rounded-full border border-slate-300 text-slate-600 transition hover:border-gold hover:text-gold dark:border-slate-600 dark:text-slate-400"><i class="ri-mail-send-line text-xl"></i></a>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex justify-center relative">
-          <div class="relative h-64 w-64 sm:h-80 sm:w-80">
-            <div class="absolute inset-0 rounded-full border-2 border-dashed border-gold/50 animate-spin-slow"></div>
-            <div class="h-full w-full overflow-hidden rounded-full border-4 border-white shadow-2xl dark:border-slate-800">
-              <img src="src/public/pic.jpeg" alt="Orlene Bliss Nisnisan" class="h-full w-full object-cover transition duration-500 hover:scale-110"/>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section class="reveal section-anchor" id="education">
-         <div class="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-            <div class="card rounded-3xl p-8">
-                <div class="flex items-center gap-3 mb-6">
-                    <div class="p-2 bg-navy/10 rounded-lg text-navy dark:bg-white/10 dark:text-white"><i class="ri-graduation-cap-fill text-xl"></i></div>
-                    <h2 class="text-2xl font-bold text-navy dark:text-white">Education</h2>
-                </div>
-                
-                <div class="space-y-8 relative border-l-2 border-slate-200 dark:border-slate-700 ml-3 pl-6">
-                    <div class="relative">
-                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-white bg-gold"></span>
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                             <h3 class="font-bold text-navy dark:text-white">MSU - Iligan Institute of Technology</h3>
-                             <span class="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-1 rounded dark:bg-slate-800">Aug 2022 - June 2026</span>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-300">B.S. in Information Technology (Database)</p>
-                        <p class="text-xs font-semibold text-gold mt-1">GPA: 1.3 / 5.0</p>
-                    </div>
-
-                    <div class="relative">
-                        <span class="absolute -left-[31px] top-1 h-4 w-4 rounded-full border-2 border-white bg-slate-300 dark:bg-slate-600"></span>
-                        <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-2">
-                             <h3 class="font-bold text-navy dark:text-white">Corpus Christi Parochial School</h3>
-                             <span class="text-xs font-mono text-slate-500 bg-slate-100 px-2 py-1 rounded dark:bg-slate-800">Aug 2020 - April 2022</span>
-                        </div>
-                        <p class="text-sm text-slate-600 dark:text-slate-300">Accountancy Business and Management</p>
-                        <p class="text-xs font-semibold text-slate-500 mt-1">Average: 90 / 100</p>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card rounded-3xl p-8 flex flex-col gap-6">
-                <div>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Relevant Coursework</h3>
-                    <div class="flex flex-wrap gap-2">
-                        <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-300">Data Structures & Algo</span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-300">Comp. Architecture</span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-300">Database Security</span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-300">Big Data Analytics</span>
-                        <span class="text-xs bg-slate-100 text-slate-600 px-3 py-1 rounded-full dark:bg-slate-800 dark:text-slate-300">Startup Essentials</span>
-                    </div>
-                </div>
-                <div>
-                    <h3 class="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">Memberships</h3>
-                    <ul class="space-y-2 text-sm text-slate-600 dark:text-slate-300">
-                        <li class="flex items-center gap-2"><i class="ri-checkbox-circle-line text-gold"></i> DevCon Iligan Volunteers</li>
-                        <li class="flex items-center gap-2"><i class="ri-checkbox-circle-line text-gold"></i> College Literary Committee</li>
-                        <li class="flex items-center gap-2"><i class="ri-checkbox-circle-line text-gold"></i> CCCM’s CoreGroup</li>
-                    </ul>
-                </div>
-            </div>
-         </div>
-      </section>
-
-      <section class="reveal section-anchor" id="skills">
-        <h2 class="text-3xl font-bold text-navy dark:text-white mb-8">Technical Skills</h2>
-        <div class="grid gap-6 md:grid-cols-2">
-            <div class="card p-6 rounded-2xl">
-                <h3 class="flex items-center gap-2 text-lg font-bold text-navy dark:text-white mb-4">
-                    <i class="ri-code-s-slash-line text-gold"></i> Languages
-                </h3>
-                <div class="flex flex-wrap gap-3">
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-python-plain colored"></i> <span class="text-sm dark:text-slate-300">Python</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-java-plain colored"></i> <span class="text-sm dark:text-slate-300">Java</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-javascript-plain colored"></i> <span class="text-sm dark:text-slate-300">JavaScript</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-php-plain colored"></i> <span class="text-sm dark:text-slate-300">PHP</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-typescript-plain colored"></i> <span class="text-sm dark:text-slate-300">TypeScript</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-html5-plain colored"></i> <span class="text-sm dark:text-slate-300">HTML/CSS</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card p-6 rounded-2xl">
-                <h3 class="flex items-center gap-2 text-lg font-bold text-navy dark:text-white mb-4">
-                    <i class="ri-tools-line text-gold"></i> Frameworks & Tools
-                </h3>
-                <div class="flex flex-wrap gap-3">
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-mysql-plain colored"></i> <span class="text-sm dark:text-slate-300">MySQL</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-redis-plain colored"></i> <span class="text-sm dark:text-slate-300">Redis</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-mongodb-plain colored"></i> <span class="text-sm dark:text-slate-300">MongoDB</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-tailwindcss-original colored"></i> <span class="text-sm dark:text-slate-300">Tailwind</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-react-original colored"></i> <span class="text-sm dark:text-slate-300">React.js</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-nodejs-plain colored"></i> <span class="text-sm dark:text-slate-300">Node.js</span>
-                    </div>
-                    <div class="flex items-center gap-2 bg-slate-50 px-3 py-2 rounded-lg border border-slate-100 dark:bg-slate-800 dark:border-slate-700">
-                        <i class="devicon-intellij-plain colored"></i> <span class="text-sm dark:text-slate-300">IntelliJ</span>
-                    </div>
-                </div>
-            </div>
-        </div>
-      </section>
-
-      <section class="reveal section-anchor" id="experience">
-         <div class="card rounded-3xl p-8">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="p-2 bg-gold/20 rounded-lg text-gold"><i class="ri-briefcase-4-fill text-xl"></i></div>
-                <h2 class="text-2xl font-bold text-navy dark:text-white">Work Experience</h2>
-            </div>
-            
-            <div class="space-y-8 border-l-2 border-slate-200 dark:border-slate-700 ml-3 pl-6">
-                
-                <div class="relative">
-                    <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-2 border-white bg-navy dark:border-slate-800"></span>
-                    <h3 class="text-lg font-bold text-navy dark:text-white">Data Management Specialist</h3>
-                    <p class="text-xs uppercase text-slate-400 mb-2">Private Contract • Oct 2022 - Mar 2023</p>
-                    <ul class="list-disc list-outside ml-4 text-sm text-slate-600 dark:text-slate-300 space-y-1">
-                        <li>Managed large datasets using Excel macros, resulting in a <span class="font-bold text-gold">30% increase in efficiency</span>.</li>
-                        <li>Utilized Google Sheets/Excel for analytics, leading to a 20% improvement in decision-making accuracy.</li>
-                    </ul>
-                </div>
-
-                <div class="relative">
-                    <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-2 border-white bg-navy dark:border-slate-800"></span>
-                    <h3 class="text-lg font-bold text-navy dark:text-white">Website Designer and Developer</h3>
-                    <p class="text-xs uppercase text-slate-400 mb-2">Freelance • Sept 2022 – Jan 2023</p>
-                    <ul class="list-disc list-outside ml-4 text-sm text-slate-600 dark:text-slate-300 space-y-1">
-                        <li>Designed 10+ responsive websites using HTML, CSS, and JS, boosting client satisfaction by 25%.</li>
-                        <li>Achieved a <span class="font-bold text-gold">90% client retention rate</span> by customizing dynamic mobile layouts.</li>
-                    </ul>
-                </div>
-
-                <div class="relative">
-                    <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full border-2 border-white bg-navy dark:border-slate-800"></span>
-                    <h3 class="text-lg font-bold text-navy dark:text-white">Mathematics Mentor</h3>
-                    <p class="text-xs uppercase text-slate-400 mb-2">Preply • Oct 2025 – Dec 2025</p>
-                    <ul class="list-disc list-outside ml-4 text-sm text-slate-600 dark:text-slate-300 space-y-1">
-                        <li>Helped students improve grades by an average of 20% through personalized online lessons.</li>
-                        <li>Created engaging materials resulting in a <span class="font-bold text-gold">90% student satisfaction rate</span>.</li>
-                    </ul>
-                </div>
-            </div>
-         </div>
-      </section>
-
-      <section class="reveal section-anchor" id="projects">
-        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-                <h2 class="text-3xl font-bold text-navy dark:text-white">Projects</h2>
-                <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                  Featured work with visual previews. The first two projects link to live sites.
-                </p>
-            </div>
-            <span class="self-start rounded-full bg-gold px-4 py-2 text-xs font-bold uppercase tracking-widest text-navy">Visual Showcase</span>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
-          
-          <a href="https://capstone199-supabase-lav.vercel.app/" target="_blank" class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800 lg:col-span-2">
-            <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-900">
-              <img src="src/public/image%20(3).png" alt="e-SKEDLAV" class="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-64" />
-            </div>
-            <div class="mt-4 flex items-center justify-between text-xs uppercase tracking-widest text-slate-400">
-              <span>Capstone • Apr 2025</span>
-              <span class="font-bold text-gold">Live Site</span>
-            </div>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">e-SKEDLAV - Tutoring System</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Full-stack platform for managing tutor sessions using SQL, Supabase, React.</p>
-            <div class="mt-4 flex gap-2">
-                <i class="devicon-postgresql-plain text-lg text-slate-400"></i>
-                <i class="devicon-react-original text-lg text-slate-400"></i>
-            </div>
-          </a>
-
-          <a href="https://myiit-speakup-gold.vercel.app/login" target="_blank" class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800 lg:col-span-2">
-            <div class="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-900">
-              <img src="src/public/image%20(4).png" alt="SpeakUp" class="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-64" />
-            </div>
-            <div class="mt-4 flex items-center justify-between text-xs uppercase tracking-widest text-slate-400">
-              <span>Backend • Aug 2025</span>
-              <span class="font-bold text-gold">Live Site</span>
-            </div>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">SpeakUp</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Backend development for complaint management using Firebase, Node.js, React.</p>
-            <div class="mt-4 flex gap-2">
-                <i class="devicon-firebase-plain text-lg text-slate-400"></i>
-                <i class="devicon-nodejs-plain text-lg text-slate-400"></i>
-            </div>
-          </a>
-
-          <article class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800">
-            <div class="overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900">
-               <img src="src/public/image%20(5).png" alt="Barangay management system preview" class="h-40 w-full object-cover transition duration-500 group-hover:scale-105" />
-            </div>
-            <div class="mt-4">
-               <span class="text-xs font-bold uppercase tracking-widest text-slate-400">System</span>
-               <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Barangay Management</h3>
-               <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                 Digitalized manual processes using Redis & JS, reducing paperwork by 40%.
-               </p>
-               <div class="mt-3 flex gap-2">
-                  <i class="devicon-redis-plain text-lg text-slate-400"></i>
-                  <i class="devicon-javascript-plain text-lg text-slate-400"></i>
-               </div>
-            </div>
-          </article>
-
-          <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800">
-            <div class="overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900">
-               <img src="src/public/image%20(1).png" alt="Emigration" class="h-40 w-full object-cover transition duration-500 group-hover:scale-105" />
-            </div>
-            <div class="mt-4">
-               <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Management</span>
-               <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Student Data </h3>
-               <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                Simple, clean interface for managing student records and accounts
-               </p>
-            </div>
-          </div>
-
-          <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800">
-            <div class="overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900">
-               <img src="src/public/image%20(2).png" alt="Analytics" class="h-40 w-full object-cover transition duration-500 group-hover:scale-105" />
-            </div>
-            <div class="mt-4">
-               <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Visualization</span>
-               <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Emigration Management</h3>
-               <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                 Data management UI for tracking demographic reports and records.
-               </p>
-            </div>
-          </div>
-
-          <div class="group flex flex-col overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800">
-            <div class="overflow-hidden rounded-xl bg-slate-100 dark:bg-slate-900">
-               <img src="src/public/image.png" alt="Student Mgmt" class="h-40 w-full object-cover transition duration-500 group-hover:scale-105" />
-            </div>
-            <div class="mt-4">
-               <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Machine Learning</span>
-               <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Emigration Analytics</h3>
-               <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                Interactive forecasting and visualization tools for long-term insights.
-               </p>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <section class="reveal section-anchor" id="certificates">
-        <div class="mb-8 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <h2 class="text-3xl font-bold text-navy dark:text-white">Certificates</h2>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">
-              Verified learning milestones and professional training certificates.
-            </p>
-          </div>
-          <span class="self-start rounded-full bg-gold px-4 py-2 text-xs font-bold uppercase tracking-widest text-navy">PDF Gallery</span>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
-            <p class="text-xs font-bold uppercase tracking-widest text-gold">CSS Essentials</p>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">CSS Essentials</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Core CSS foundations and layout mastery.</p>
-            <button
-              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
-              type="button"
-              data-pdf="src/public/certificates/CSSEssentialsv120251212-30-uoihw8.pdf"
-              data-title="CSS Essentials"
-            >
-              <i class="ri-file-pdf-line text-base"></i>
-              View Certificate
-            </button>
-          </div>
-
-          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
-            <p class="text-xs font-bold uppercase tracking-widest text-gold">Hour of Code</p>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">December 2024 HoC</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Completed Hour of Code learning challenge.</p>
-            <button
-              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
-              type="button"
-              data-pdf="src/public/certificates/December%202024%20HoC%20Certificate%20BLISS%20NISNISAN.pdf"
-              data-title="December 2024 HoC Certificate"
-            >
-              <i class="ri-file-pdf-line text-base"></i>
-              View Certificate
-            </button>
-          </div>
-
-          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
-            <p class="text-xs font-bold uppercase tracking-widest text-gold">HTML Essentials</p>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">HTML Essentials</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Semantic HTML structures and accessibility basics.</p>
-            <button
-              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
-              type="button"
-              data-pdf="src/public/certificates/HTMLEssentialsv120250925-31-f0obhk.pdf"
-              data-title="HTML Essentials"
-            >
-              <i class="ri-file-pdf-line text-base"></i>
-              View Certificate
-            </button>
-          </div>
-
-          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
-            <p class="text-xs font-bold uppercase tracking-widest text-gold">JavaScript</p>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">JavaScript Essentials 1</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Core JavaScript syntax, logic, and DOM basics.</p>
-            <button
-              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
-              type="button"
-              data-pdf="src/public/certificates/JavaScript_Essentials_1_certificate_orlenebliss-nisnisan-g-msuiit-edu-ph_ff7847a8-fb5e-4edc-8988-947a7f67f26f.pdf"
-              data-title="JavaScript Essentials 1"
-            >
-              <i class="ri-file-pdf-line text-base"></i>
-              View Certificate
-            </button>
-          </div>
-
-          <div class="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700">
-            <p class="text-xs font-bold uppercase tracking-widest text-gold">Wadhwani</p>
-            <h3 class="mt-2 text-lg font-bold text-navy dark:text-white">Wadhwani Foundation</h3>
-            <p class="mt-2 text-sm text-slate-600 dark:text-slate-300">Entrepreneurship and innovation fundamentals.</p>
-            <button
-              class="mt-4 inline-flex items-center gap-2 rounded-full bg-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white transition hover:-translate-y-0.5 hover:bg-navy/90"
-              type="button"
-              data-pdf="src/public/certificates/Wadhwani%20Foundation%20Certificate%20-%206938cb9349e895be1f165b4d.pdf"
-              data-title="Wadhwani Foundation Certificate"
-            >
-              <i class="ri-file-pdf-line text-base"></i>
-              View Certificate
-            </button>
-          </div>
-        </div>
-      </section>
-
-      <section class="reveal section-anchor" id="leadership">
-        <h2 class="text-3xl font-bold text-navy dark:text-white mb-8">Leadership</h2>
-        <div class="grid gap-6 md:grid-cols-2">
-            
-            <div class="card p-6 rounded-2xl border-t-4 border-t-gold">
-                <h3 class="text-lg font-bold text-navy dark:text-white">CCS Student Council</h3>
-                <p class="text-xs uppercase tracking-widest text-gold mb-4">Undersecretary, Literary Comm.</p>
-                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3">Aug 2024 - Present</p>
-                <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                    <li class="flex gap-2"><i class="ri-arrow-right-s-line text-gold"></i> Creates promotional materials to enhance college presence.</li>
-                    <li class="flex gap-2"><i class="ri-arrow-right-s-line text-gold"></i> Trains participants for "Battle of the Brains" competitions.</li>
-                </ul>
-            </div>
-
-            <div class="card p-6 rounded-2xl border-t-4 border-t-navy dark:border-t-white">
-                <h3 class="text-lg font-bold text-navy dark:text-white">Catholic Center Campus Ministry</h3>
-                <p class="text-xs uppercase tracking-widest text-gold mb-4">Core Group Leader</p>
-                <p class="text-sm text-slate-600 dark:text-slate-300 mb-3">Aug 2022 - Present</p>
-                <ul class="text-sm text-slate-600 dark:text-slate-300 space-y-2">
-                    <li class="flex gap-2"><i class="ri-arrow-right-s-line text-gold"></i> Leads spiritual activities and outreach programs.</li>
-                    <li class="flex gap-2"><i class="ri-arrow-right-s-line text-gold"></i> Manages documentation and news articles for events.</li>
-                </ul>
-            </div>
-
-        </div>
-      </section>
-
-      <section class="reveal section-anchor card grid gap-8 rounded-3xl p-8 lg:grid-cols-[1fr_1.2fr]" id="contact">
-        <div>
-          <h2 class="text-3xl font-bold text-navy dark:text-white">Let's Connect</h2>
-          <p class="mt-4 text-slate-600 dark:text-slate-300">
-            Open to opportunities in database management and full-stack development.
-          </p>
-          
-          <div class="mt-8 space-y-4">
-            <a href="mailto:nisnisanob@gmail.com" class="flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm transition hover:shadow-md dark:bg-slate-800">
-                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gold/20 text-gold"><i class="ri-mail-line"></i></div>
-                <div>
-                    <p class="text-xs uppercase text-slate-400">Email Me</p>
-                    <p class="font-medium text-navy dark:text-white">nisnisanob@gmail.com</p>
-                </div>
-            </a>
-            <div class="flex items-center gap-4 rounded-xl bg-white p-4 shadow-sm dark:bg-slate-800">
-                <div class="flex h-10 w-10 items-center justify-center rounded-full bg-navy/10 text-navy dark:bg-white/10 dark:text-white"><i class="ri-phone-line"></i></div>
-                <div>
-                    <p class="text-xs uppercase text-slate-400">Call Me</p>
-                    <p class="font-medium text-navy dark:text-white">+63 975 4793 107</p>
-                </div>
-            </div>
-          </div>
-        </div>
-
-        <form class="rounded-2xl border border-slate-200 bg-white/50 p-6 backdrop-blur-sm dark:border-slate-700 dark:bg-slate-900/50" onsubmit="event.preventDefault(); alert('Message Sent!');">
-          <div class="grid gap-5">
-            <div>
-              <label class="mb-1 block text-xs font-bold uppercase tracking-widest text-slate-500" for="name">Name</label>
-              <input class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white" id="name" type="text" placeholder="Your Name" />
-            </div>
-            <div>
-              <label class="mb-1 block text-xs font-bold uppercase tracking-widest text-slate-500" for="email">Email</label>
-              <input class="w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white" id="email" type="email" placeholder="email@example.com" />
-            </div>
-            <div>
-              <label class="mb-1 block text-xs font-bold uppercase tracking-widest text-slate-500" for="message">Message</label>
-              <textarea class="min-h-[120px] w-full rounded-xl border border-slate-200 bg-white px-4 py-3 outline-none transition focus:border-gold focus:ring-2 focus:ring-gold/20 dark:border-slate-700 dark:bg-slate-800 dark:text-white" id="message" placeholder="How can I help you?"></textarea>
-            </div>
-            <button class="rounded-xl bg-gold px-6 py-4 text-sm font-bold uppercase tracking-widest text-navy shadow-lg transition hover:-translate-y-1 hover:bg-orange-500 hover:text-white" type="submit">
-              Send Message
-            </button>
-          </div>
-        </form>
-      </section>
-    </main>
-
-    <div id="certificateModal" class="modal-overlay fixed inset-0 z-50 hidden items-center justify-center px-6 py-10">
-      <div class="modal-panel w-full max-w-4xl rounded-3xl bg-white p-6 shadow-2xl dark:bg-slate-900">
-        <div class="flex items-center justify-between gap-4">
-          <h3 id="certificateTitle" class="text-lg font-bold text-navy dark:text-white">Certificate</h3>
-          <button
-            id="closeCertificate"
-            type="button"
-            class="rounded-full border border-slate-200 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-slate-500 transition hover:border-gold hover:text-gold dark:border-slate-700 dark:text-slate-300"
-          >
-            Close
-          </button>
-        </div>
-        <div class="mt-4 aspect-[4/3] w-full overflow-hidden rounded-2xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-800">
-          <iframe
-            id="certificateFrame"
-            title="Certificate preview"
-            class="h-full w-full"
-            src=""
-          ></iframe>
-        </div>
-      </div>
-    </div>
-
-    <footer class="mt-12 border-t border-slate-200 bg-white/60 py-10 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
-      <div class="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:justify-between sm:px-10">
-        <p class="text-sm text-slate-500">© 2026 Orlene Bliss Nisnisan. All rights reserved.</p>
-        <div class="flex gap-6 text-2xl text-slate-400">
-           <a href="https://github.com/obeautipoll" class="hover:text-navy dark:hover:text-white transition"><i class="devicon-github-original"></i></a>
-           <a href="https://linkedin.com" class="hover:text-blue-600 transition"><i class="devicon-linkedin-plain"></i></a>
-        </div>
-      </div>
-    </footer>
-
-    <script>
-      // Toggle Theme
-      const toggleBtn = document.getElementById("themeToggle");
-      const toggleIcon = document.getElementById("toggleIcon");
-      const html = document.documentElement;
-
-      if (localStorage.getItem("theme") === "dark") {
-        html.classList.add("dark");
-        toggleIcon.classList.replace("ri-sun-line", "ri-moon-line");
-      }
-
-      toggleBtn.addEventListener("click", () => {
-        html.classList.toggle("dark");
-        const isDark = html.classList.contains("dark");
-        localStorage.setItem("theme", isDark ? "dark" : "light");
-        toggleIcon.className = isDark ? "ri-moon-line text-xl" : "ri-sun-line text-xl";
-      });
-
-      // Loader
-      window.addEventListener('load', () => {
-        const loader = document.getElementById('loader');
-        loader.style.opacity = '0';
-        setTimeout(() => loader.style.display = 'none', 500);
-      });
-
-      // Scroll Reveal
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-            if (entry.isIntersecting) entry.target.classList.add('active');
-        });
-      }, { threshold: 0.1 });
-      document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
-
-      // Certificates Modal
-      const certificateModal = document.getElementById("certificateModal");
-      const certificateFrame = document.getElementById("certificateFrame");
-      const certificateTitle = document.getElementById("certificateTitle");
-      const closeCertificate = document.getElementById("closeCertificate");
-      const certificateButtons = document.querySelectorAll("[data-pdf]");
-
-      const openCertificate = (src, title) => {
-        certificateFrame.src = src;
-        certificateTitle.textContent = title;
-        certificateModal.classList.remove("hidden");
-        certificateModal.classList.add("flex", "modal-open");
-      };
-
-      const closeCertificateModal = () => {
-        certificateModal.classList.add("hidden");
-        certificateModal.classList.remove("flex", "modal-open");
-        certificateFrame.src = "";
-      };
-
-      certificateButtons.forEach((button) => {
-        button.addEventListener("click", () => {
-          openCertificate(button.dataset.pdf, button.dataset.title || "Certificate");
-        });
-      });
-
-      closeCertificate.addEventListener("click", closeCertificateModal);
-      certificateModal.addEventListener("click", (event) => {
-        if (event.target === certificateModal) closeCertificateModal();
-      });
-
-      // Back to Top
-      const backToTopBtn = document.getElementById("backToTop");
-      window.onscroll = function() {
-        backToTopBtn.classList.toggle("hidden", window.scrollY < 300);
-      };
-      function scrollToTop() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    </script>
+    <div id="root"></div>
+    <script type="module" src="/src/index.js"></script>
   </body>
 </html>
