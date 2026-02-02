@@ -58,6 +58,9 @@ const upload = multer({
   limits: { fileSize: 5 * 1024 * 1024 },
 });
 
+const asyncHandler = (handler) => (req, res, next) =>
+  Promise.resolve(handler(req, res, next)).catch(next);
+
 const ensureDefaultUser = async () => {
   const email = process.env.DEFAULT_USER_EMAIL;
   const password = process.env.DEFAULT_USER_PASSWORD;
@@ -97,7 +100,7 @@ app.get("/api/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-app.post("/api/login", async (req, res) => {
+app.post("/api/login", asyncHandler(async (req, res) => {
   const { username, password } = req.body || {};
   if (!username || !password) {
     return res.status(400).json({ error: "Username and password required" });
@@ -124,9 +127,9 @@ app.post("/api/login", async (req, res) => {
   );
 
   return res.json({ token });
-});
+}));
 
-app.get("/api/content", async (_req, res) => {
+app.get("/api/content", asyncHandler(async (_req, res) => {
   const reads = await Promise.all(
     sectionNames.map(async (section) => {
       const snapshot = await getSectionRef(section).get();
@@ -140,9 +143,9 @@ app.get("/api/content", async (_req, res) => {
   }, {});
 
   return res.json({ content: Object.keys(content).length ? content : null });
-});
+}));
 
-app.put("/api/content", requireAuth, async (req, res) => {
+app.put("/api/content", requireAuth, asyncHandler(async (req, res) => {
   const { content } = req.body || {};
   if (!content || typeof content !== "object") {
     return res.status(400).json({ error: "Content object required" });
@@ -155,13 +158,13 @@ app.put("/api/content", requireAuth, async (req, res) => {
 
   await Promise.all(writes.filter(Boolean));
   return res.json({ ok: true });
-});
+}));
 
 app.post(
   "/api/upload",
   requireAuth,
   upload.single("file"),
-  async (req, res) => {
+  asyncHandler(async (req, res) => {
     if (!req.file) {
       return res.status(400).json({ error: "File is required" });
     }
@@ -185,10 +188,10 @@ app.post(
       url: `https://storage.googleapis.com/${bucket.name}/${fileName}`,
       path: fileName,
     });
-  }
+  })
 );
 
-app.post("/api/contact", async (req, res) => {
+app.post("/api/contact", asyncHandler(async (req, res) => {
   const { name, email, message } = req.body || {};
   if (!name || !email || !message) {
     return res.status(400).json({ error: "Name, email, and message required" });
@@ -202,9 +205,9 @@ app.post("/api/contact", async (req, res) => {
   });
 
   return res.json({ ok: true });
-});
+}));
 
-app.get("/api/messages", requireAuth, async (_req, res) => {
+app.get("/api/messages", requireAuth, asyncHandler(async (_req, res) => {
   const snapshot = await messagesRef
     .orderBy("createdAt", "desc")
     .limit(50)
@@ -216,6 +219,12 @@ app.get("/api/messages", requireAuth, async (_req, res) => {
   }));
 
   return res.json({ messages });
+}));
+
+app.use((err, _req, res, _next) => {
+  // eslint-disable-next-line no-console
+  console.error("API error:", err);
+  res.status(500).json({ error: "Server error" });
 });
 
 app.listen(port, () => {
