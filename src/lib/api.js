@@ -3,6 +3,7 @@ import { getToken } from "./auth";
 const configuredSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
 const storageBucket = import.meta.env.VITE_SUPABASE_STORAGE_BUCKET || "portfolio";
+const adminSignupEnabled = import.meta.env.VITE_ENABLE_ADMIN_SIGNUP === "true";
 
 const normalizeProjectUrl = (url) =>
   url.replace(/\/rest\/v1\/?$/, "").replace(/\/$/, "");
@@ -50,7 +51,18 @@ const parseError = async (res) => {
 
   try {
     const parsed = JSON.parse(responseText);
-    return parsed.error_description || parsed.message || parsed.error || responseText;
+    const message =
+      parsed.error_description || parsed.message || parsed.error || responseText;
+
+    if (/invalid login credentials/i.test(message)) {
+      return "Invalid login. Use a Supabase Auth email/password. If you have not created a Supabase Auth user yet, enable signup locally and create one first.";
+    }
+
+    if (/email not confirmed/i.test(message)) {
+      return "Email is not confirmed. Confirm the user in Supabase Authentication or disable email confirmations while testing.";
+    }
+
+    return message;
   } catch {
     return responseText;
   }
@@ -72,8 +84,13 @@ const supabaseRequest = async (path, options = {}) => {
   return res.json();
 };
 
-export const login = async (username, password) => {
+export const login = async (email, password) => {
   assertSupabaseConfig();
+
+  const normalizedEmail = String(email).trim().toLowerCase();
+  if (!normalizedEmail.includes("@")) {
+    throw new Error("Use the email address from Supabase Auth.");
+  }
 
   const res = await fetch(
     `${supabaseProjectUrl}/auth/v1/token?grant_type=password`,
@@ -81,10 +98,11 @@ export const login = async (username, password) => {
       method: "POST",
       headers: {
         apikey: supabaseAnonKey,
+        Authorization: `Bearer ${supabaseAnonKey}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        email: String(username).trim(),
+        email: normalizedEmail,
         password,
       }),
     }
@@ -96,6 +114,44 @@ export const login = async (username, password) => {
 
   const data = await res.json();
   return { token: data.access_token, user: data.user };
+};
+
+export const canCreateAdminAccount = () => adminSignupEnabled;
+
+export const createAdminAccount = async (email, password) => {
+  assertSupabaseConfig();
+
+  if (!adminSignupEnabled) {
+    throw new Error("Admin signup is disabled.");
+  }
+
+  const normalizedEmail = String(email).trim().toLowerCase();
+  if (!normalizedEmail.includes("@")) {
+    throw new Error("Use a valid email address.");
+  }
+
+  if (String(password).length < 6) {
+    throw new Error("Password must be at least 6 characters.");
+  }
+
+  const res = await fetch(`${supabaseProjectUrl}/auth/v1/signup`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${supabaseAnonKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: normalizedEmail,
+      password,
+    }),
+  });
+
+  if (!res.ok) {
+    throw new Error(await parseError(res));
+  }
+
+  return res.json();
 };
 
 export const fetchContent = async () => {
