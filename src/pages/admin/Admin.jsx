@@ -5,16 +5,27 @@ import {
   fetchMessages,
   saveContent,
   uploadImage,
-} from "../lib/api";
-import { clearToken } from "../lib/auth";
-import defaultContent from "../content/defaultContent";
+} from "../../lib/api";
+import { clearToken } from "../../lib/auth";
+import defaultContent from "../../content/defaultContent";
 
 const mergeContent = (base, incoming) => {
   if (!incoming) return base;
-  return {
-    ...base,
-    ...incoming,
-  };
+  if (Array.isArray(base) || Array.isArray(incoming)) {
+    return incoming === undefined ? base : incoming;
+  }
+  if (
+    typeof base === "object" &&
+    base !== null &&
+    typeof incoming === "object" &&
+    incoming !== null
+  ) {
+    return Object.keys({ ...base, ...incoming }).reduce((merged, key) => {
+      merged[key] = mergeContent(base[key], incoming[key]);
+      return merged;
+    }, {});
+  }
+  return incoming === undefined ? base : incoming;
 };
 
 const TextInput = ({ label, value, onChange, type = "text" }) => (
@@ -45,8 +56,20 @@ const TextArea = ({ label, value, onChange, rows = 3 }) => (
   </label>
 );
 
-const SectionCard = ({ title, children, onSave, status }) => (
-  <section className="rounded-3xl bg-white p-6 shadow-soft">
+const cmsSections = [
+  { id: "profile", label: "Profile" },
+  { id: "education", label: "Education" },
+  { id: "skills", label: "Skills" },
+  { id: "experience", label: "Experience" },
+  { id: "projects", label: "Projects" },
+  { id: "certificates", label: "Certificates" },
+  { id: "leadership", label: "Leadership" },
+  { id: "contact", label: "Contact" },
+  { id: "inbox", label: "Inbox" },
+];
+
+const SectionCard = ({ id, title, children, onSave, status }) => (
+  <section className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-soft" id={id}>
     <div className="flex flex-wrap items-center justify-between gap-3">
       <h2 className="text-xl font-bold text-navy">{title}</h2>
       <div className="flex items-center gap-3">
@@ -64,7 +87,7 @@ const SectionCard = ({ title, children, onSave, status }) => (
   </section>
 );
 
-const ImageUpload = ({ label, onUploaded }) => {
+const ImageUpload = ({ label, onUploaded, accept = "image/*", section }) => {
   const [uploading, setUploading] = useState(false);
   const [error, setError] = useState("");
 
@@ -74,10 +97,10 @@ const ImageUpload = ({ label, onUploaded }) => {
     setUploading(true);
     setError("");
     try {
-      const result = await uploadImage(file);
+      const result = await uploadImage(file, section);
       onUploaded(result.url);
     } catch (err) {
-      setError("Upload failed.");
+      setError(err.message || "Upload failed.");
     } finally {
       setUploading(false);
       event.target.value = "";
@@ -91,7 +114,7 @@ const ImageUpload = ({ label, onUploaded }) => {
       </span>
       <input
         type="file"
-        accept="image/*"
+        accept={accept}
         onChange={handleUpload}
         disabled={uploading}
       />
@@ -117,7 +140,7 @@ const Admin = () => {
       .catch(() => {
         setStatus((prev) => ({
           ...prev,
-          global: "Using default content. Save to create CMS data.",
+          global: "No CMS data found. Add content and save to publish.",
         }));
       });
 
@@ -134,7 +157,10 @@ const Admin = () => {
       await saveContent({ [sectionName]: content[sectionName] });
       setStatus((prev) => ({ ...prev, [sectionName]: "Saved." }));
     } catch (err) {
-      setStatus((prev) => ({ ...prev, [sectionName]: "Save failed." }));
+      setStatus((prev) => ({
+        ...prev,
+        [sectionName]: err.message || "Save failed.",
+      }));
     }
   };
 
@@ -144,13 +170,16 @@ const Admin = () => {
       await saveContent(content);
       setStatus((prev) => ({ ...prev, global: "All changes saved." }));
     } catch (err) {
-      setStatus((prev) => ({ ...prev, global: "Save all failed." }));
+      setStatus((prev) => ({
+        ...prev,
+        global: err.message || "Save all failed.",
+      }));
     }
   };
 
   const handleLogout = () => {
     clearToken();
-    navigate("/admin/login", { replace: true });
+    navigate("/admin", { replace: true });
   };
 
   const updateSection = (sectionName, updater) => {
@@ -198,8 +227,29 @@ const Admin = () => {
         </div>
       </header>
 
-      <main className="mx-auto flex max-w-5xl flex-col gap-6 px-6 py-10">
+      <main className="mx-auto grid max-w-6xl gap-6 px-6 py-10 lg:grid-cols-[220px_1fr]">
+        <aside className="lg:sticky lg:top-6 lg:self-start">
+          <nav className="rounded-3xl bg-white p-4 shadow-soft">
+            <p className="px-3 text-xs font-bold uppercase tracking-widest text-slate-400">
+              Sections
+            </p>
+            <div className="mt-3 grid gap-1">
+              {cmsSections.map((section) => (
+                <a
+                  className="rounded-xl px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-sand hover:text-navy"
+                  href={`#${section.id}`}
+                  key={section.id}
+                >
+                  {section.label}
+                </a>
+              ))}
+            </div>
+          </nav>
+        </aside>
+
+        <div className="flex flex-col gap-6">
         <SectionCard
+          id="profile"
           title="Profile"
           onSave={() => handleSaveSection("profile")}
           status={status.profile}
@@ -262,6 +312,7 @@ const Admin = () => {
           />
           <ImageUpload
             label="Upload avatar image"
+            section="profile"
             onUploaded={(url) =>
               updateSection("profile", (prev) => ({ ...prev, avatar: url }))
             }
@@ -299,6 +350,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="education"
           title="Education"
           onSave={() => handleSaveSection("education")}
           status={status.education}
@@ -435,6 +487,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="skills"
           title="Skills"
           onSave={() => handleSaveSection("skills")}
           status={status.skills}
@@ -550,6 +603,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="experience"
           title="Experience"
           onSave={() => handleSaveSection("experience")}
           status={status.experience}
@@ -627,6 +681,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="projects"
           title="Projects"
           onSave={() => handleSaveSection("projects")}
           status={status.projects}
@@ -713,6 +768,7 @@ const Admin = () => {
                 />
                 <ImageUpload
                   label="Upload image"
+                  section="projects"
                   onUploaded={(url) =>
                     updateSection("projects", (prev) => {
                       const next = [...prev.featured];
@@ -838,6 +894,7 @@ const Admin = () => {
                 />
                 <ImageUpload
                   label="Upload image"
+                  section="projects"
                   onUploaded={(url) =>
                     updateSection("projects", (prev) => {
                       const next = [...prev.cards];
@@ -901,6 +958,7 @@ const Admin = () => {
           </div>
         </SectionCard>
         <SectionCard
+          id="certificates"
           title="Certificates"
           onSave={() => handleSaveSection("certificates")}
           status={status.certificates}
@@ -974,6 +1032,18 @@ const Admin = () => {
                   })
                 }
               />
+              <ImageUpload
+                label="Upload certificate PDF"
+                accept="application/pdf"
+                section="certificates"
+                onUploaded={(url) =>
+                  updateSection("certificates", (prev) => {
+                    const next = [...prev.items];
+                    next[index] = { ...next[index], pdf: url };
+                    return { ...prev, items: next };
+                  })
+                }
+              />
               <button
                 className="text-xs font-semibold text-red-500"
                 type="button"
@@ -1006,6 +1076,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="leadership"
           title="Leadership"
           onSave={() => handleSaveSection("leadership")}
           status={status.leadership}
@@ -1112,6 +1183,7 @@ const Admin = () => {
         </SectionCard>
 
         <SectionCard
+          id="contact"
           title="Contact"
           onSave={() => handleSaveSection("contact")}
           status={status.contact}
@@ -1135,7 +1207,10 @@ const Admin = () => {
           />
         </SectionCard>
 
-        <section className="rounded-3xl bg-white p-6 shadow-soft">
+        <section
+          className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-soft"
+          id="inbox"
+        >
           <h2 className="text-xl font-bold text-navy">Inbox</h2>
           <p className="mt-2 text-sm text-slate-500">
             Latest messages from the public contact form.
@@ -1157,6 +1232,7 @@ const Admin = () => {
             ))}
           </div>
         </section>
+        </div>
       </main>
     </div>
   );

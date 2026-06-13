@@ -13,7 +13,8 @@ const defaultContent = {
       facebook: "https://www.facebook.com/nisnisanob",
       linkedin: "https://linkedin.com",
     },
-    avatar: "/pic.jpeg",
+    avatar:
+      "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/pic.jpeg",
   },
   education: {
     schools: [
@@ -101,7 +102,8 @@ const defaultContent = {
         badge: "Live Site",
         description:
           "Full-stack platform for managing tutor sessions using SQL, Supabase, React.",
-        image: "/image%20(3).png",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image-3.png",
         link: "https://capstone199-supabase-lav.vercel.app/",
         icons: ["devicon-postgresql-plain", "devicon-react-original"],
       },
@@ -111,7 +113,8 @@ const defaultContent = {
         badge: "Live Site",
         description:
           "Backend development for complaint management using Firebase, Node.js, React.",
-        image: "/image%20(4).png",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image-4.png",
         link: "https://myiit-speakup-gold.vercel.app/login",
         icons: ["devicon-firebase-plain", "devicon-nodejs-plain"],
       },
@@ -122,28 +125,32 @@ const defaultContent = {
         tag: "System",
         description:
           "Digitalized manual processes using Redis & JS, reducing paperwork by 40%.",
-        image: "/image%20(5).png",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image-5.png",
         icons: ["devicon-redis-plain", "devicon-javascript-plain"],
       },
       {
         title: "Student Data",
         tag: "Management",
-        description: "Simple, clean interface for managing student records and accounts",
-        image: "/image%20(1).png",
+        description: "Simple, clean interface for managing student records and accounts.",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image-1.png",
       },
       {
         title: "Emigration Management",
         tag: "Visualization",
         description:
           "Data management UI for tracking demographic reports and records.",
-        image: "/image%20(2).png",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image-2.png",
       },
       {
         title: "Emigration Analytics",
         tag: "Machine Learning",
         description:
           "Interactive forecasting and visualization tools for long-term insights.",
-        image: "/image.png",
+        image:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/assets/image.png",
       },
     ],
   },
@@ -156,33 +163,36 @@ const defaultContent = {
         tag: "CSS Essentials",
         title: "CSS Essentials",
         description: "Core CSS foundations and layout mastery.",
-        pdf: "/certificates/CSSEssentialsv120251212-30-uoihw8.pdf",
+        pdf:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/certificates/css-essentials.pdf",
       },
       {
         tag: "Hour of Code",
         title: "December 2024 HoC",
         description: "Completed Hour of Code learning challenge.",
-        pdf: "/certificates/December%202024%20HoC%20Certificate%20BLISS%20NISNISAN.pdf",
+        pdf:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/certificates/december-2024-hoc.pdf",
       },
       {
         tag: "HTML Essentials",
         title: "HTML Essentials",
         description: "Semantic HTML structures and accessibility basics.",
-        pdf: "/certificates/HTMLEssentialsv120250925-31-f0obhk.pdf",
+        pdf:
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/certificates/html-essentials.pdf",
       },
       {
         tag: "JavaScript",
         title: "JavaScript Essentials 1",
         description: "Core JavaScript syntax, logic, and DOM basics.",
         pdf:
-          "/certificates/JavaScript_Essentials_1_certificate_orlenebliss-nisnisan-g-msuiit-edu-ph_ff7847a8-fb5e-4edc-8988-947a7f67f26f.pdf",
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/certificates/javascript-essentials-1.pdf",
       },
       {
         tag: "Wadhwani",
         title: "Wadhwani Foundation",
         description: "Entrepreneurship and innovation fundamentals.",
         pdf:
-          "/certificates/Wadhwani%20Foundation%20Certificate%20-%206938cb9349e895be1f165b4d.pdf",
+          "https://lgyiqjgfoivnsxhsnzox.supabase.co/storage/v1/object/public/portfolio-media/certificates/wadhwani-foundation.pdf",
       },
     ],
   },

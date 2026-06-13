@@ -1,6 +1,25 @@
-﻿import { useEffect, useMemo, useState } from "react";
-import { fetchContent, submitContact } from "../lib/api";
-import defaultContent from "../content/defaultContent";
+import { useEffect, useMemo, useState } from "react";
+import { fetchContent, submitContact } from "../../lib/api";
+import defaultContent from "../../content/defaultContent";
+
+const mergeContent = (base, incoming) => {
+  if (!incoming) return base;
+  if (Array.isArray(base) || Array.isArray(incoming)) {
+    return incoming === undefined ? base : incoming;
+  }
+  if (
+    typeof base === "object" &&
+    base !== null &&
+    typeof incoming === "object" &&
+    incoming !== null
+  ) {
+    return Object.keys({ ...base, ...incoming }).reduce((merged, key) => {
+      merged[key] = mergeContent(base[key], incoming[key]);
+      return merged;
+    }, {});
+  }
+  return incoming === undefined ? base : incoming;
+};
 
 const Home = () => {
   const [content, setContent] = useState(defaultContent);
@@ -26,7 +45,7 @@ const Home = () => {
     fetchContent()
       .then((data) => {
         if (!alive) return;
-        if (data?.content) setContent(data.content);
+        if (data?.content) setContent(mergeContent(defaultContent, data.content));
       })
       .catch(() => {
         if (alive) setContent(defaultContent);
@@ -145,7 +164,7 @@ const Home = () => {
                 Portfolio
               </p>
               <p className="text-sm font-bold text-navy dark:text-white sm:text-lg">
-                {profile?.shortName || "Orlene Bliss"}
+                {profile?.shortName}
               </p>
             </div>
           </a>
@@ -182,7 +201,7 @@ const Home = () => {
             </a>
             <a
               className="hidden sm:block rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-500 transition hover:border-gold hover:text-gold dark:border-slate-700 dark:text-slate-300"
-              href="/admin/login"
+              href="/admin"
             >
               Edit
             </a>
@@ -209,7 +228,7 @@ const Home = () => {
           <div>
             <div className="inline-flex items-center gap-2 rounded-full bg-gold/10 px-3 py-1 text-xs font-bold uppercase tracking-widest text-gold mb-4">
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse"></span>
-              {profile?.heroTag || "Data + Web"}
+              {profile?.heroTag}
             </div>
             <h1 className="text-4xl font-bold leading-tight text-navy dark:text-white sm:text-5xl lg:text-6xl">
               {profile?.name}
