@@ -20,7 +20,7 @@ const Login = () => {
     try {
       const data = await login(email, password);
       setToken(data.token);
-      navigate("/admin", { replace: true });
+      navigate("/adminonlyme", { replace: true });
     } catch (err) {
       setError(err.message || "Login failed. Check your credentials.");
     } finally {

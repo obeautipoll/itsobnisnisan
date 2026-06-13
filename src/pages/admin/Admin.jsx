@@ -179,7 +179,7 @@ const Admin = () => {
 
   const handleLogout = () => {
     clearToken();
-    navigate("/admin", { replace: true });
+    navigate("/adminonlyme", { replace: true });
   };
 
   const updateSection = (sectionName, updater) => {

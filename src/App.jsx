@@ -12,8 +12,9 @@ const AdminRoute = () => {
 const App = () => (
   <Routes>
     <Route path="/" element={<Home />} />
-    <Route path="/admin" element={<AdminRoute />} />
-    <Route path="/admin/login" element={<Navigate to="/admin" replace />} />
+    <Route path="/adminonlyme" element={<AdminRoute />} />
+    <Route path="/admin" element={<Navigate to="/" replace />} />
+    <Route path="/admin/login" element={<Navigate to="/adminonlyme" replace />} />
     <Route path="*" element={<Navigate to="/" replace />} />
   </Routes>
 );
