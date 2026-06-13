@@ -34,12 +34,12 @@ const Login = () => {
         >
           <h1 className="text-2xl font-bold text-navy">CMS Login</h1>
           <p className="mt-2 text-sm text-slate-500">
-            Sign in to edit portfolio content.
+            Sign in with your Supabase account to edit portfolio content.
           </p>
           <div className="mt-6 space-y-4">
             <div>
               <label className="text-xs font-bold uppercase tracking-widest text-slate-400">
-                Username or email
+                Email
               </label>
               <input
                 className="mt-2 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm"

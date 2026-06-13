@@ -1,6 +1,6 @@
--- Supabase schema used by the local CMS API.
--- Run this in the Supabase SQL editor for the project used by server/.env.
--- For secure writes, put SUPABASE_SERVICE_ROLE_KEY in server/.env and keep it server-only.
+-- Supabase schema used directly by the Vite app.
+-- Run this in the Supabase SQL editor.
+-- Create an admin user in Supabase Auth, then sign in at /admin with that email/password.
 
 create extension if not exists pgcrypto;
 
@@ -8,16 +8,6 @@ create table if not exists public.content_sections (
   id uuid primary key default gen_random_uuid(),
   section text not null unique,
   data jsonb not null default '{}'::jsonb,
-  created_at timestamptz not null default now(),
-  updated_at timestamptz not null default now()
-);
-
-create table if not exists public.users (
-  id uuid primary key default gen_random_uuid(),
-  username text not null unique,
-  email text not null unique,
-  password_hash text not null,
-  role text not null default 'admin' check (role in ('admin', 'editor')),
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
 );
@@ -59,12 +49,50 @@ create trigger set_content_sections_updated_at
 before update on public.content_sections
 for each row execute function public.set_updated_at();
 
-drop trigger if exists set_users_updated_at on public.users;
-create trigger set_users_updated_at
-before update on public.users
-for each row execute function public.set_updated_at();
-
 alter table public.content_sections enable row level security;
-alter table public.users enable row level security;
 alter table public.messages enable row level security;
 alter table public.media_assets enable row level security;
+
+drop policy if exists "Public can read content sections" on public.content_sections;
+create policy "Public can read content sections"
+on public.content_sections for select
+to anon, authenticated
+using (true);
+
+drop policy if exists "Authenticated users can manage content sections" on public.content_sections;
+create policy "Authenticated users can manage content sections"
+on public.content_sections for all
+to authenticated
+using (true)
+with check (true);
+
+drop policy if exists "Anyone can submit messages" on public.messages;
+create policy "Anyone can submit messages"
+on public.messages for insert
+to anon, authenticated
+with check (true);
+
+drop policy if exists "Authenticated users can read messages" on public.messages;
+create policy "Authenticated users can read messages"
+on public.messages for select
+to authenticated
+using (true);
+
+drop policy if exists "Authenticated users can manage media assets" on public.media_assets;
+create policy "Authenticated users can manage media assets"
+on public.media_assets for all
+to authenticated
+using (true)
+with check (true);
+
+drop policy if exists "Public can read portfolio files" on storage.objects;
+create policy "Public can read portfolio files"
+on storage.objects for select
+to anon, authenticated
+using (bucket_id = 'portfolio');
+
+drop policy if exists "Authenticated users can upload portfolio files" on storage.objects;
+create policy "Authenticated users can upload portfolio files"
+on storage.objects for insert
+to authenticated
+with check (bucket_id = 'portfolio');
