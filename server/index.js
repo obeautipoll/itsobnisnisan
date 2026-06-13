@@ -416,7 +416,11 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ error: "Server error" });
 });
 
-app.listen(port, () => {
-  // eslint-disable-next-line no-console
-  console.log(`CMS API running on http://localhost:${port}`);
-});
+if (!process.env.VERCEL) {
+  app.listen(port, () => {
+    // eslint-disable-next-line no-console
+    console.log(`CMS API running on http://localhost:${port}`);
+  });
+}
+
+export default app;
