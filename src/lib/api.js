@@ -10,16 +10,6 @@ const normalizeProjectUrl = (url) =>
 
 const supabaseProjectUrl = normalizeProjectUrl(configuredSupabaseUrl);
 const supabaseRestUrl = `${supabaseProjectUrl}/rest/v1`;
-const sectionNames = [
-  "profile",
-  "education",
-  "skills",
-  "experience",
-  "projects",
-  "certificates",
-  "leadership",
-  "contact",
-];
 
 const assertSupabaseConfig = () => {
   if (!supabaseProjectUrl || !supabaseAnonKey) {
@@ -68,6 +58,12 @@ const parseError = async (res) => {
   }
 };
 
+const parseJsonOrNull = async (res) => {
+  const responseText = await res.text();
+  if (!responseText) return null;
+  return JSON.parse(responseText);
+};
+
 const supabaseRequest = async (path, options = {}) => {
   assertSupabaseConfig();
 
@@ -81,8 +77,350 @@ const supabaseRequest = async (path, options = {}) => {
   }
 
   if (res.status === 204) return null;
-  return res.json();
+  return parseJsonOrNull(res);
 };
+
+const selectRows = (table, query = "select=*") =>
+  supabaseRequest(`/${table}?${query}`);
+
+const selectSingle = async (table, query = "select=*&limit=1") => {
+  const rows = await selectRows(table, query);
+  return Array.isArray(rows) ? rows[0] || null : null;
+};
+
+const upsertRows = (table, rows, conflictTarget = "id") =>
+  supabaseRequest(`/${table}?on_conflict=${conflictTarget}`, {
+    method: "POST",
+    headers: {
+      Prefer: "resolution=merge-duplicates,return=minimal",
+    },
+    body: JSON.stringify(rows),
+  });
+
+const deleteAllRows = (table) =>
+  supabaseRequest(`/${table}?id=not.is.null`, {
+    method: "DELETE",
+    headers: { Prefer: "return=minimal" },
+  });
+
+const replaceRows = async (table, rows) => {
+  await deleteAllRows(table);
+  if (!rows.length) return null;
+  return upsertRows(table, rows);
+};
+
+const sortByOrder = (rows) =>
+  [...(rows || [])].sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+
+const toTextArray = (value) => (Array.isArray(value) ? value : []);
+
+const fetchProfile = async () => {
+  const row = await selectSingle("cms_profile");
+  if (!row) return null;
+
+  return {
+    name: row.name,
+    shortName: row.short_name,
+    heroTag: row.hero_tag,
+    tagline: row.tagline,
+    email: row.email,
+    phone: row.phone,
+    resume: row.resume,
+    avatar: row.avatar,
+    links: {
+      github: row.github_url,
+      facebook: row.facebook_url,
+      linkedin: row.linkedin_url,
+    },
+  };
+};
+
+const saveProfile = (profile) =>
+  upsertRows("cms_profile", [
+    {
+      id: 1,
+      name: profile.name || "",
+      short_name: profile.shortName || "",
+      hero_tag: profile.heroTag || "",
+      tagline: profile.tagline || "",
+      email: profile.email || "",
+      phone: profile.phone || "",
+      resume: profile.resume || "",
+      avatar: profile.avatar || "",
+      github_url: profile.links?.github || "",
+      facebook_url: profile.links?.facebook || "",
+      linkedin_url: profile.links?.linkedin || "",
+    },
+  ]);
+
+const fetchEducation = async () => {
+  const [schools, coursework, memberships] = await Promise.all([
+    selectRows("cms_education_schools", "select=*&order=sort_order.asc"),
+    selectRows("cms_education_coursework", "select=*&order=sort_order.asc"),
+    selectRows("cms_education_memberships", "select=*&order=sort_order.asc"),
+  ]);
+
+  if (!schools.length && !coursework.length && !memberships.length) return null;
+
+  return {
+    schools: sortByOrder(schools).map((school) => ({
+      name: school.name,
+      period: school.period,
+      program: school.program,
+      note: school.note,
+      highlight: school.highlight,
+    })),
+    coursework: sortByOrder(coursework).map((item) => item.title),
+    memberships: sortByOrder(memberships).map((item) => item.title),
+  };
+};
+
+const saveEducation = async (education) => {
+  await Promise.all([
+    replaceRows(
+      "cms_education_schools",
+      (education.schools || []).map((school, index) => ({
+        sort_order: index,
+        name: school.name || "",
+        period: school.period || "",
+        program: school.program || "",
+        note: school.note || "",
+        highlight: Boolean(school.highlight),
+      }))
+    ),
+    replaceRows(
+      "cms_education_coursework",
+      (education.coursework || []).map((title, index) => ({
+        sort_order: index,
+        title,
+      }))
+    ),
+    replaceRows(
+      "cms_education_memberships",
+      (education.memberships || []).map((title, index) => ({
+        sort_order: index,
+        title,
+      }))
+    ),
+  ]);
+};
+
+const fetchSkills = async () => {
+  const [languages, tools] = await Promise.all([
+    selectRows("cms_skills_languages", "select=*&order=sort_order.asc"),
+    selectRows("cms_skills_tools", "select=*&order=sort_order.asc"),
+  ]);
+
+  if (!languages.length && !tools.length) return null;
+
+  return {
+    languages: sortByOrder(languages).map((skill) => ({
+      name: skill.name,
+      icon: skill.icon,
+    })),
+    tools: sortByOrder(tools).map((skill) => ({
+      name: skill.name,
+      icon: skill.icon,
+    })),
+  };
+};
+
+const saveSkills = async (skills) => {
+  await Promise.all([
+    replaceRows(
+      "cms_skills_languages",
+      (skills.languages || []).map((skill, index) => ({
+        sort_order: index,
+        name: skill.name || "",
+        icon: skill.icon || "",
+      }))
+    ),
+    replaceRows(
+      "cms_skills_tools",
+      (skills.tools || []).map((skill, index) => ({
+        sort_order: index,
+        name: skill.name || "",
+        icon: skill.icon || "",
+      }))
+    ),
+  ]);
+};
+
+const fetchExperience = async () => {
+  const rows = await selectRows("cms_experience_roles", "select=*&order=sort_order.asc");
+  if (!rows.length) return null;
+
+  return sortByOrder(rows).map((role) => ({
+    title: role.title,
+    period: role.period,
+    bullets: toTextArray(role.bullets),
+  }));
+};
+
+const saveExperience = (experience) =>
+  replaceRows(
+    "cms_experience_roles",
+    (experience || []).map((role, index) => ({
+      sort_order: index,
+      title: role.title || "",
+      period: role.period || "",
+      bullets: toTextArray(role.bullets),
+    }))
+  );
+
+const fetchProjects = async () => {
+  const [meta, featured, cards] = await Promise.all([
+    selectSingle("cms_projects_meta"),
+    selectRows("cms_projects_featured", "select=*&order=sort_order.asc"),
+    selectRows("cms_projects_cards", "select=*&order=sort_order.asc"),
+  ]);
+
+  if (!meta && !featured.length && !cards.length) return null;
+
+  return {
+    description: meta?.description || "",
+    badge: meta?.badge || "",
+    featured: sortByOrder(featured).map((project) => ({
+      title: project.title,
+      period: project.period,
+      badge: project.badge,
+      description: project.description,
+      image: project.image,
+      link: project.link,
+      icons: toTextArray(project.icons),
+    })),
+    cards: sortByOrder(cards).map((project) => ({
+      title: project.title,
+      tag: project.tag,
+      description: project.description,
+      image: project.image,
+      icons: toTextArray(project.icons),
+    })),
+  };
+};
+
+const saveProjects = async (projects) => {
+  await Promise.all([
+    upsertRows("cms_projects_meta", [
+      {
+        id: 1,
+        description: projects.description || "",
+        badge: projects.badge || "",
+      },
+    ]),
+    replaceRows(
+      "cms_projects_featured",
+      (projects.featured || []).map((project, index) => ({
+        sort_order: index,
+        title: project.title || "",
+        period: project.period || "",
+        badge: project.badge || "",
+        description: project.description || "",
+        image: project.image || "",
+        link: project.link || "",
+        icons: toTextArray(project.icons),
+      }))
+    ),
+    replaceRows(
+      "cms_projects_cards",
+      (projects.cards || []).map((project, index) => ({
+        sort_order: index,
+        title: project.title || "",
+        tag: project.tag || "",
+        description: project.description || "",
+        image: project.image || "",
+        icons: toTextArray(project.icons),
+      }))
+    ),
+  ]);
+};
+
+const fetchCertificates = async () => {
+  const [meta, items] = await Promise.all([
+    selectSingle("cms_certificates_meta"),
+    selectRows("cms_certificates_items", "select=*&order=sort_order.asc"),
+  ]);
+
+  if (!meta && !items.length) return null;
+
+  return {
+    description: meta?.description || "",
+    badge: meta?.badge || "",
+    items: sortByOrder(items).map((cert) => ({
+      tag: cert.tag,
+      title: cert.title,
+      description: cert.description,
+      pdf: cert.pdf,
+    })),
+  };
+};
+
+const saveCertificates = async (certificates) => {
+  await Promise.all([
+    upsertRows("cms_certificates_meta", [
+      {
+        id: 1,
+        description: certificates.description || "",
+        badge: certificates.badge || "",
+      },
+    ]),
+    replaceRows(
+      "cms_certificates_items",
+      (certificates.items || []).map((cert, index) => ({
+        sort_order: index,
+        tag: cert.tag || "",
+        title: cert.title || "",
+        description: cert.description || "",
+        pdf: cert.pdf || "",
+      }))
+    ),
+  ]);
+};
+
+const fetchLeadership = async () => {
+  const rows = await selectRows("cms_leadership_roles", "select=*&order=sort_order.asc");
+  if (!rows.length) return null;
+
+  return sortByOrder(rows).map((role) => ({
+    title: role.title,
+    role: role.role,
+    period: role.period,
+    bullets: toTextArray(role.bullets),
+    accent: role.accent,
+  }));
+};
+
+const saveLeadership = (leadership) =>
+  replaceRows(
+    "cms_leadership_roles",
+    (leadership || []).map((role, index) => ({
+      sort_order: index,
+      title: role.title || "",
+      role: role.role || "",
+      period: role.period || "",
+      bullets: toTextArray(role.bullets),
+      accent: role.accent || "gold",
+    }))
+  );
+
+const fetchContact = async () => {
+  const row = await selectSingle("cms_contact");
+  if (!row) return null;
+
+  return {
+    headline: row.headline,
+    description: row.description,
+  };
+};
+
+const saveContact = (contact) =>
+  upsertRows("cms_contact", [
+    {
+      id: 1,
+      headline: contact.headline || "",
+      description: contact.description || "",
+    },
+  ]);
 
 export const login = async (email, password) => {
   assertSupabaseConfig();
@@ -151,38 +489,57 @@ export const createAdminAccount = async (email, password) => {
     throw new Error(await parseError(res));
   }
 
-  return res.json();
+  return parseJsonOrNull(res);
 };
 
 export const fetchContent = async () => {
-  const rows = await supabaseRequest(
-    "/content_sections?select=section,data"
-  );
-  const content = rows.reduce((acc, row) => {
-    acc[row.section] = row.data;
-    return acc;
-  }, {});
+  const [
+    profile,
+    education,
+    skills,
+    experience,
+    projects,
+    certificates,
+    leadership,
+    contact,
+  ] = await Promise.all([
+    fetchProfile(),
+    fetchEducation(),
+    fetchSkills(),
+    fetchExperience(),
+    fetchProjects(),
+    fetchCertificates(),
+    fetchLeadership(),
+    fetchContact(),
+  ]);
+
+  const content = {
+    ...(profile ? { profile } : {}),
+    ...(education ? { education } : {}),
+    ...(skills ? { skills } : {}),
+    ...(experience ? { experience } : {}),
+    ...(projects ? { projects } : {}),
+    ...(certificates ? { certificates } : {}),
+    ...(leadership ? { leadership } : {}),
+    ...(contact ? { contact } : {}),
+  };
 
   return { content: Object.keys(content).length ? content : null };
 };
 
 export const saveContent = async (content) => {
-  const rows = sectionNames
-    .filter((section) => content[section] !== undefined)
-    .map((section) => ({
-      section,
-      data: content[section],
-    }));
+  const writes = [];
 
-  if (!rows.length) return { ok: true };
+  if (content.profile !== undefined) writes.push(saveProfile(content.profile));
+  if (content.education !== undefined) writes.push(saveEducation(content.education));
+  if (content.skills !== undefined) writes.push(saveSkills(content.skills));
+  if (content.experience !== undefined) writes.push(saveExperience(content.experience));
+  if (content.projects !== undefined) writes.push(saveProjects(content.projects));
+  if (content.certificates !== undefined) writes.push(saveCertificates(content.certificates));
+  if (content.leadership !== undefined) writes.push(saveLeadership(content.leadership));
+  if (content.contact !== undefined) writes.push(saveContact(content.contact));
 
-  await supabaseRequest("/content_sections?on_conflict=section", {
-    method: "POST",
-    headers: {
-      Prefer: "resolution=merge-duplicates,return=minimal",
-    },
-    body: JSON.stringify(rows),
-  });
+  await Promise.all(writes);
 
   return { ok: true };
 };

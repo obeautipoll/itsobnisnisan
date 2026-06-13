@@ -1,7 +1,7 @@
 -- Normalized CMS section tables for Supabase/Postgres.
 -- This creates one table per editable CMS section or repeated item group.
--- The current app uses public.content_sections JSON rows in cms-schema.sql.
--- Use this schema only if you plan to migrate the app to normalized tables.
+-- The current app uses these normalized tables directly.
+-- docs/cms-schema.sql is the full setup script with policies and storage rules.
 
 create extension if not exists pgcrypto;
 
