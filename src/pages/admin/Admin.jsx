@@ -4,6 +4,7 @@ import {
   fetchContent,
   fetchMessages,
   saveContent,
+  subscribeToMessages,
   uploadImage,
 } from "../../lib/api";
 import { clearToken } from "../../lib/auth";
@@ -124,13 +125,109 @@ const ImageUpload = ({ label, onUploaded, accept = "image/*", section }) => {
   );
 };
 
+const InboxPanel = ({
+  messages,
+  inboxStatus,
+  inboxError,
+  onRefresh,
+  compact = false,
+}) => (
+  <section
+    className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-soft"
+    id="inbox"
+  >
+    <div className="flex flex-wrap items-start justify-between gap-3">
+      <div>
+        <h2 className="text-xl font-bold text-navy">
+          Inbox Messages ({messages.length})
+        </h2>
+        <p className="mt-2 text-sm text-slate-500">
+          Latest messages from the public contact form.
+        </p>
+      </div>
+      <div className="flex flex-wrap items-center gap-2">
+        <span className="rounded-full bg-emerald-50 px-3 py-2 text-xs font-semibold uppercase tracking-widest text-emerald-700">
+          {inboxStatus}
+        </span>
+        <button
+          className="rounded-full border border-slate-200 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-slate-600 transition hover:border-navy hover:text-navy"
+          type="button"
+          onClick={onRefresh}
+        >
+          Refresh
+        </button>
+      </div>
+    </div>
+    {inboxError && (
+      <p className="mt-4 rounded-2xl border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-600">
+        {inboxError}
+      </p>
+    )}
+    <div
+      className={`mt-4 space-y-3 ${
+        compact ? "max-h-[420px] overflow-y-auto pr-2" : ""
+      }`}
+    >
+      {messages.length === 0 && (
+        <p className="text-sm text-slate-400">No messages yet.</p>
+      )}
+      {messages.map((msg) => (
+        <div
+          key={msg.id}
+          className="rounded-2xl border border-slate-200 bg-slate-50/70 p-4"
+        >
+          <div className="flex flex-wrap items-start justify-between gap-3">
+            <div>
+              <p className="text-sm font-semibold text-navy">
+                {msg.name || "No name"}
+              </p>
+              <a className="text-sm text-gold hover:underline" href={`mailto:${msg.email}`}>
+                {msg.email || "No email"}
+              </a>
+            </div>
+            {msg.created_at && (
+              <p className="text-xs text-slate-400">
+                {new Date(msg.created_at).toLocaleString()}
+              </p>
+            )}
+          </div>
+          <p className="mt-3 whitespace-pre-wrap text-sm leading-relaxed text-slate-600">
+            {msg.message}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+);
+
 const Admin = () => {
   const navigate = useNavigate();
   const [content, setContent] = useState(defaultContent);
   const [status, setStatus] = useState({});
   const [messages, setMessages] = useState([]);
+  const [inboxStatus, setInboxStatus] = useState("Loading inbox");
+  const [inboxError, setInboxError] = useState("");
+
+  const loadMessages = async () => {
+    setInboxStatus("Loading inbox");
+    setInboxError("");
+    try {
+      const data = await fetchMessages();
+      setMessages(data?.messages || []);
+      setInboxStatus("Live inbox");
+    } catch (err) {
+      setMessages([]);
+      setInboxStatus("Inbox unavailable");
+      setInboxError(
+        err.message ||
+          "Unable to load messages. Check admin login and messages table permissions."
+      );
+    }
+  };
 
   useEffect(() => {
+    loadMessages();
+
     fetchContent()
       .then((data) => {
         if (data?.content) {
@@ -144,11 +241,23 @@ const Admin = () => {
         }));
       });
 
-    fetchMessages()
-      .then((data) => setMessages(data?.messages || []))
-      .catch(() => {
-        setMessages([]);
+    let unsubscribe = () => {};
+    try {
+      unsubscribe = subscribeToMessages((message) => {
+        setMessages((prev) => {
+          if (!message?.id || prev.some((item) => item.id === message.id)) {
+            return prev;
+          }
+          return [message, ...prev].slice(0, 50);
+        });
+        setInboxError("");
+        setInboxStatus("New message received");
       });
+    } catch {
+      setInboxStatus("Inbox loaded");
+    }
+
+    return () => unsubscribe();
   }, []);
 
   const handleSaveSection = async (sectionName) => {
@@ -248,6 +357,14 @@ const Admin = () => {
         </aside>
 
         <div className="flex flex-col gap-6">
+        <InboxPanel
+          messages={messages}
+          inboxStatus={inboxStatus}
+          inboxError={inboxError}
+          onRefresh={loadMessages}
+          compact
+        />
+
         <SectionCard
           id="profile"
           title="Profile"
@@ -1207,31 +1324,6 @@ const Admin = () => {
           />
         </SectionCard>
 
-        <section
-          className="scroll-mt-24 rounded-3xl bg-white p-6 shadow-soft"
-          id="inbox"
-        >
-          <h2 className="text-xl font-bold text-navy">Inbox</h2>
-          <p className="mt-2 text-sm text-slate-500">
-            Latest messages from the public contact form.
-          </p>
-          <div className="mt-4 space-y-3">
-            {messages.length === 0 && (
-              <p className="text-sm text-slate-400">No messages yet.</p>
-            )}
-            {messages.map((msg) => (
-              <div
-                key={msg.id}
-                className="rounded-2xl border border-slate-200 p-4"
-              >
-                <p className="text-sm font-semibold text-navy">
-                  {msg.name} ({msg.email})
-                </p>
-                <p className="mt-2 text-sm text-slate-600">{msg.message}</p>
-              </div>
-            ))}
-          </div>
-        </section>
         </div>
       </main>
     </div>

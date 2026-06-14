@@ -1,4 +1,5 @@
-import { getToken } from "./auth";
+import { createClient } from "@supabase/supabase-js";
+import { clearToken, getRefreshToken, getToken, setSession } from "./auth";
 
 const configuredSupabaseUrl = import.meta.env.VITE_SUPABASE_URL || "";
 const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || "";
@@ -11,6 +12,26 @@ const normalizeProjectUrl = (url) =>
 const supabaseProjectUrl = normalizeProjectUrl(configuredSupabaseUrl);
 const supabaseRestUrl = `${supabaseProjectUrl}/rest/v1`;
 
+const cmsRealtimeTables = [
+  "cms_profile",
+  "cms_education_schools",
+  "cms_education_coursework",
+  "cms_education_memberships",
+  "cms_skills_languages",
+  "cms_skills_tools",
+  "cms_experience_roles",
+  "cms_projects_meta",
+  "cms_projects_featured",
+  "cms_projects_cards",
+  "cms_certificates_meta",
+  "cms_certificates_items",
+  "cms_leadership_roles",
+  "cms_contact",
+];
+
+let browserClient = null;
+let browserClientToken = null;
+
 const assertSupabaseConfig = () => {
   if (!supabaseProjectUrl || !supabaseAnonKey) {
     throw new Error(
@@ -19,8 +40,37 @@ const assertSupabaseConfig = () => {
   }
 };
 
+const getBrowserClient = () => {
+  assertSupabaseConfig();
+  const token = getToken() || null;
+
+  if (!browserClient || browserClientToken !== token) {
+    browserClientToken = token;
+    browserClient = createClient(supabaseProjectUrl, supabaseAnonKey, {
+      auth: {
+        persistSession: false,
+        autoRefreshToken: false,
+        detectSessionInUrl: false,
+      },
+      global: {
+        headers: token
+          ? {
+              Authorization: `Bearer ${token}`,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  if (token) {
+    browserClient.realtime.setAuth(token);
+  }
+
+  return browserClient;
+};
+
 const supabaseHeaders = (options = {}) => {
-  const token = getToken();
+  const token = options.forceAnon ? null : getToken();
   const headers = {
     apikey: supabaseAnonKey,
     Authorization: `Bearer ${token || supabaseAnonKey}`,
@@ -64,13 +114,66 @@ const parseJsonOrNull = async (res) => {
   return JSON.parse(responseText);
 };
 
+const refreshAdminSession = async () => {
+  const refreshToken = getRefreshToken();
+  if (!refreshToken) return null;
+
+  const res = await fetch(`${supabaseProjectUrl}/auth/v1/token?grant_type=refresh_token`, {
+    method: "POST",
+    headers: {
+      apikey: supabaseAnonKey,
+      Authorization: `Bearer ${supabaseAnonKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      refresh_token: refreshToken,
+    }),
+  });
+
+  if (!res.ok) {
+    clearToken();
+    return null;
+  }
+
+  const data = await res.json();
+  const expiresAt = data.expires_at
+    ? data.expires_at * 1000
+    : Date.now() + (data.expires_in || 3600) * 1000;
+
+  setSession({
+    token: data.access_token,
+    refreshToken: data.refresh_token,
+    expiresAt,
+  });
+
+  browserClient = null;
+  browserClientToken = null;
+
+  return data.access_token;
+};
+
 const supabaseRequest = async (path, options = {}) => {
   assertSupabaseConfig();
 
-  const res = await fetch(`${supabaseRestUrl}${path}`, {
-    ...options,
-    headers: supabaseHeaders(options),
-  });
+  const request = () =>
+    fetch(`${supabaseRestUrl}${path}`, {
+      ...options,
+      headers: supabaseHeaders(options),
+    });
+
+  let res = await request();
+
+  if (res.status === 401 && !options.forceAnon && getRefreshToken()) {
+    const refreshedToken = await refreshAdminSession();
+    if (refreshedToken) {
+      res = await request();
+    }
+  }
+
+  if (res.status === 401 && !options.forceAnon) {
+    clearToken();
+    throw new Error("Admin session expired. Sign in again to read admin-only data.");
+  }
 
   if (!res.ok) {
     throw new Error(await parseError(res));
@@ -451,7 +554,16 @@ export const login = async (email, password) => {
   }
 
   const data = await res.json();
-  return { token: data.access_token, user: data.user };
+  const expiresAt = data.expires_at
+    ? data.expires_at * 1000
+    : Date.now() + (data.expires_in || 3600) * 1000;
+
+  return {
+    token: data.access_token,
+    refreshToken: data.refresh_token,
+    expiresAt,
+    user: data.user,
+  };
 };
 
 export const canCreateAdminAccount = () => adminSignupEnabled;
@@ -527,6 +639,32 @@ export const fetchContent = async () => {
   return { content: Object.keys(content).length ? content : null };
 };
 
+export const subscribeToContentUpdates = (onChange) => {
+  const client = getBrowserClient();
+  const channel = client.channel("public-cms-content");
+  let refreshTimer = null;
+
+  const scheduleRefresh = () => {
+    window.clearTimeout(refreshTimer);
+    refreshTimer = window.setTimeout(onChange, 250);
+  };
+
+  cmsRealtimeTables.forEach((table) => {
+    channel.on(
+      "postgres_changes",
+      { event: "*", schema: "public", table },
+      scheduleRefresh
+    );
+  });
+
+  channel.subscribe();
+
+  return () => {
+    window.clearTimeout(refreshTimer);
+    client.removeChannel(channel);
+  };
+};
+
 export const saveContent = async (content) => {
   const writes = [];
 
@@ -600,6 +738,7 @@ export const uploadImage = async (file, section) => {
 export const submitContact = (payload) =>
   supabaseRequest("/messages", {
     method: "POST",
+    forceAnon: true,
     headers: { Prefer: "return=minimal" },
     body: JSON.stringify(payload),
   });
@@ -609,4 +748,21 @@ export const fetchMessages = async () => {
     "/messages?select=*&order=created_at.desc&limit=50"
   );
   return { messages };
+};
+
+export const subscribeToMessages = (onMessage) => {
+  const client = getBrowserClient();
+  const channel = client
+    .channel("admin-contact-inbox")
+    .on(
+      "postgres_changes",
+      { event: "INSERT", schema: "public", table: "messages" },
+      (payload) => onMessage(payload.new)
+    );
+
+  channel.subscribe();
+
+  return () => {
+    client.removeChannel(channel);
+  };
 };

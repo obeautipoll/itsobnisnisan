@@ -1,5 +1,9 @@
-import { useEffect, useMemo, useState } from "react";
-import { fetchContent, submitContact } from "../../lib/api";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  fetchContent,
+  submitContact,
+  subscribeToContentUpdates,
+} from "../../lib/api";
 import defaultContent from "../../content/defaultContent";
 
 const mergeContent = (base, incoming) => {
@@ -34,11 +38,18 @@ const Home = () => {
     title: "Certificate",
   });
   const [contactStatus, setContactStatus] = useState("");
+  const [cmsStatus, setCmsStatus] = useState("Loading CMS");
   const [contactForm, setContactForm] = useState({
     name: "",
     email: "",
     message: "",
   });
+
+  const loadContent = useCallback(async (statusText = "Synced") => {
+    const data = await fetchContent();
+    if (data?.content) setContent(mergeContent(defaultContent, data.content));
+    setCmsStatus(statusText);
+  }, []);
 
   useEffect(() => {
     let alive = true;
@@ -46,14 +57,29 @@ const Home = () => {
       .then((data) => {
         if (!alive) return;
         if (data?.content) setContent(mergeContent(defaultContent, data.content));
+        setCmsStatus("Live CMS");
       })
       .catch(() => {
         if (alive) setContent(defaultContent);
+        if (alive) setCmsStatus("Default content");
       });
+
+    let unsubscribe = () => {};
+    try {
+      unsubscribe = subscribeToContentUpdates(() => {
+        if (!alive) return;
+        setCmsStatus("Updating");
+        loadContent("Updated");
+      });
+    } catch {
+      setCmsStatus("CMS loaded");
+    }
+
     return () => {
       alive = false;
+      unsubscribe();
     };
-  }, []);
+  }, [loadContent]);
 
   useEffect(() => {
     const html = document.documentElement;
@@ -153,8 +179,8 @@ const Home = () => {
         <i className="ri-arrow-up-line text-xl"></i>
       </button>
 
-      <nav className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/85 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/80">
-        <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-between gap-4 px-6 py-4 sm:px-10 lg:px-16">
+      <nav className="sticky top-0 z-50 border-b border-slate-200/60 bg-white/90 backdrop-blur-md dark:border-slate-700/50 dark:bg-slate-900/85">
+        <div className="mx-auto flex max-w-[1520px] flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8 xl:px-10">
           <a href="#" className="flex items-center gap-3 group">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-navy text-gold font-bold text-xl group-hover:rotate-12 transition duration-300">
               OB
@@ -191,6 +217,9 @@ const Home = () => {
           </div>
 
           <div className="flex items-center gap-3">
+            <span className="hidden rounded-full bg-emerald-50 px-3 py-2 text-[11px] font-semibold uppercase tracking-widest text-emerald-700 lg:inline-flex dark:bg-emerald-400/10 dark:text-emerald-200">
+              {cmsStatus}
+            </span>
             <a
               className="hidden sm:block rounded-full border border-navy px-4 py-2 text-xs font-semibold uppercase tracking-widest text-navy transition hover:bg-navy hover:text-white dark:border-white dark:text-white dark:hover:bg-white dark:hover:text-navy"
               href={profile?.resume}
@@ -214,9 +243,9 @@ const Home = () => {
         </div>
       </nav>
 
-      <main className="mx-auto flex max-w-6xl flex-col gap-16 px-6 pb-16 pt-10 sm:px-10 lg:px-16">
+      <main className="mx-auto flex max-w-[1520px] flex-col gap-16 px-5 pb-16 pt-10 sm:px-8 xl:px-10">
         <section
-          className="reveal section-anchor card grid gap-8 rounded-[32px] p-8 sm:p-10 lg:grid-cols-[1.2fr_0.8fr] items-center"
+          className="reveal section-anchor card grid min-h-[520px] gap-10 rounded-2xl p-8 sm:p-10 lg:grid-cols-[minmax(0,1.35fr)_420px] lg:p-14 xl:p-16 items-center"
           id="hero"
         >
           <div>
@@ -224,10 +253,10 @@ const Home = () => {
               <span className="h-2 w-2 rounded-full bg-gold animate-pulse"></span>
               {profile?.heroTag}
             </div>
-            <h1 className="text-4xl font-bold leading-tight text-navy dark:text-white sm:text-5xl lg:text-6xl">
+            <h1 className="max-w-4xl text-4xl font-bold leading-tight text-navy dark:text-white sm:text-5xl lg:text-7xl">
               {profile?.name}
             </h1>
-            <p className="mt-6 max-w-xl text-slate-600 dark:text-slate-300 leading-relaxed">
+            <p className="mt-6 max-w-3xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
               {profile?.tagline}
             </p>
 
@@ -265,8 +294,8 @@ const Home = () => {
             </div>
           </div>
 
-          <div className="flex justify-center relative">
-            <div className="relative h-64 w-64 sm:h-80 sm:w-80">
+          <div className="flex justify-center relative lg:justify-end">
+            <div className="relative h-64 w-64 sm:h-80 sm:w-80 lg:h-[360px] lg:w-[360px]">
               <div className="absolute inset-0 rounded-full border-2 border-dashed border-gold/50 animate-spin-slow"></div>
               <div className="h-full w-full overflow-hidden rounded-full border-4 border-white shadow-2xl dark:border-slate-800">
                 <img
@@ -280,8 +309,8 @@ const Home = () => {
         </section>
 
         <section className="reveal section-anchor" id="education">
-          <div className="grid gap-6 lg:grid-cols-[1.5fr_1fr]">
-            <div className="card rounded-3xl p-8">
+          <div className="grid gap-6 lg:grid-cols-[1.55fr_1fr]">
+            <div className="card rounded-2xl p-8">
               <div className="flex items-center gap-3 mb-6">
                 <div className="p-2 bg-navy/10 rounded-lg text-navy dark:bg-white/10 dark:text-white">
                   <i className="ri-graduation-cap-fill text-xl"></i>
@@ -324,7 +353,7 @@ const Home = () => {
               </div>
             </div>
 
-            <div className="card rounded-3xl p-8 flex flex-col gap-6">
+            <div className="card rounded-2xl p-8 flex flex-col gap-6">
               <div>
                 <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-3">
                   Relevant Coursework
@@ -403,7 +432,7 @@ const Home = () => {
         </section>
 
         <section className="reveal section-anchor" id="experience">
-          <div className="card rounded-3xl p-8">
+          <div className="card rounded-2xl p-8">
             <div className="flex items-center gap-3 mb-6">
               <div className="p-2 bg-gold/20 rounded-lg text-gold">
                 <i className="ri-briefcase-4-fill text-xl"></i>
@@ -449,20 +478,20 @@ const Home = () => {
             </span>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-2">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-4">
             {projects?.featured?.map((project) => (
               <a
                 key={project.title}
                 href={project.link}
                 target="_blank"
                 rel="noreferrer"
-                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800 lg:col-span-2"
+                className="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-soft transition hover:-translate-y-1 hover:shadow-card dark:border-slate-700 dark:bg-slate-800 md:col-span-2 xl:col-span-2"
               >
                 <div className="overflow-hidden rounded-xl border border-slate-200 bg-slate-100 dark:border-slate-700 dark:bg-slate-900">
                   <img
                     src={project.image}
                     alt={project.title}
-                    className="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-64"
+                    className="h-52 w-full object-cover transition duration-700 group-hover:scale-105 sm:h-64 xl:h-72"
                   />
                 </div>
                 <div className="mt-4 flex items-center justify-between text-xs uppercase tracking-widest text-slate-400">
@@ -539,7 +568,7 @@ const Home = () => {
             </span>
           </div>
 
-          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {certificates?.items?.map((cert) => (
               <div
                 className="card rounded-2xl border border-slate-200 p-5 shadow-soft dark:border-slate-700"
@@ -602,7 +631,7 @@ const Home = () => {
         </section>
 
         <section
-          className="reveal section-anchor card grid gap-8 rounded-3xl p-8 lg:grid-cols-[1fr_1.2fr]"
+          className="reveal section-anchor card grid gap-8 rounded-2xl p-8 lg:grid-cols-[0.9fr_1.35fr]"
           id="contact"
         >
           <div>
@@ -774,7 +803,7 @@ const Home = () => {
       </div>
 
       <footer className="mt-12 border-t border-slate-200 bg-white/60 py-10 backdrop-blur-md dark:border-slate-800 dark:bg-slate-900/80">
-        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 sm:flex-row sm:justify-between sm:px-10">
+        <div className="mx-auto flex max-w-[1520px] flex-col items-center gap-6 px-5 sm:flex-row sm:justify-between sm:px-8 xl:px-10">
           <p className="text-sm text-slate-500">
             (c) 2026 {profile?.name}. All rights reserved.
           </p>

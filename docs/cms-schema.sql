@@ -256,6 +256,85 @@ alter table public.cms_contact enable row level security;
 alter table public.messages enable row level security;
 alter table public.media_assets enable row level security;
 
+grant usage on schema public to anon, authenticated;
+
+grant select on
+  public.cms_profile,
+  public.cms_education_schools,
+  public.cms_education_coursework,
+  public.cms_education_memberships,
+  public.cms_skills_languages,
+  public.cms_skills_tools,
+  public.cms_experience_roles,
+  public.cms_projects_meta,
+  public.cms_projects_featured,
+  public.cms_projects_cards,
+  public.cms_certificates_meta,
+  public.cms_certificates_items,
+  public.cms_leadership_roles,
+  public.cms_contact
+to anon, authenticated;
+
+grant insert on public.messages to anon, authenticated;
+grant select on public.messages to authenticated;
+
+grant all on
+  public.cms_profile,
+  public.cms_education_schools,
+  public.cms_education_coursework,
+  public.cms_education_memberships,
+  public.cms_skills_languages,
+  public.cms_skills_tools,
+  public.cms_experience_roles,
+  public.cms_projects_meta,
+  public.cms_projects_featured,
+  public.cms_projects_cards,
+  public.cms_certificates_meta,
+  public.cms_certificates_items,
+  public.cms_leadership_roles,
+  public.cms_contact,
+  public.media_assets
+to authenticated;
+
+-- Realtime updates used by the public site and admin inbox.
+-- Public visitors can subscribe only to CMS tables they are allowed to read.
+-- Contact messages are insertable by the public, but readable/subscribable only by authenticated admins.
+do $$
+declare
+  realtime_table text;
+  realtime_tables text[] := array[
+    'cms_profile',
+    'cms_education_schools',
+    'cms_education_coursework',
+    'cms_education_memberships',
+    'cms_skills_languages',
+    'cms_skills_tools',
+    'cms_experience_roles',
+    'cms_projects_meta',
+    'cms_projects_featured',
+    'cms_projects_cards',
+    'cms_certificates_meta',
+    'cms_certificates_items',
+    'cms_leadership_roles',
+    'cms_contact',
+    'messages'
+  ];
+begin
+  if exists (select 1 from pg_publication where pubname = 'supabase_realtime') then
+    foreach realtime_table in array realtime_tables loop
+      if not exists (
+        select 1
+        from pg_publication_tables
+        where pubname = 'supabase_realtime'
+          and schemaname = 'public'
+          and tablename = realtime_table
+      ) then
+        execute format('alter publication supabase_realtime add table public.%I', realtime_table);
+      end if;
+    end loop;
+  end if;
+end $$;
+
 drop policy if exists "Public can read cms_profile" on public.cms_profile;
 create policy "Public can read cms_profile" on public.cms_profile
 for select to anon, authenticated using (true);

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { canCreateAdminAccount, createAdminAccount, login } from "../../lib/api";
-import { setToken } from "../../lib/auth";
+import { setSession } from "../../lib/auth";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -19,7 +19,7 @@ const Login = () => {
     setLoading(true);
     try {
       const data = await login(email, password);
-      setToken(data.token);
+      setSession(data);
       navigate("/adminonlyme", { replace: true });
     } catch (err) {
       setError(err.message || "Login failed. Check your credentials.");
